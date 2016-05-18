@@ -27,6 +27,7 @@
         // Enemy parameters
         [Header("Enemies Parameters")]
         public EnemyController EnemyPrefab;
+        public int DamagePerCollision = 1;
         [Range(0, 18)]
         public int MinEnemyPerTile = 1;
         [Range(0, 18)]
@@ -35,6 +36,7 @@
         // Collectable parameters
         [Header("Collectable Parameters")]
         public CollectableController CollectablePrefab;
+        public int RewardPerCollectable = 1;
         [Range(0, 18)]
         public int MinCollectablePerTile = 1;
         [Range(0, 18)]
@@ -134,6 +136,7 @@
                 int finalScore = this.PlayerPresenter.Player.CurrentHealthPoints +
                                  this.PlayerPresenter.Player.CurrentCollectables;
 
+                Debug.Log(finalScore);
                 // todo:
             }
         }

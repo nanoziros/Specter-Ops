@@ -12,8 +12,8 @@ namespace SpecterOps
     public class EnvironmentTilePresenter : MonoBehaviour
     {
         // Active gameplay elements
-        private List<GameplayElementController> activeEnemies = new List<GameplayElementController>();
-        private List<GameplayElementController> activeCollectables = new List<GameplayElementController>();
+        private List<EnemyController> activeEnemies = new List<EnemyController>();
+        private List<CollectableController> activeCollectables = new List<CollectableController>();
 
         // Gameplay elements parents
         public Transform enemiesParent;
@@ -71,17 +71,34 @@ namespace SpecterOps
             this.SpawnGameplayElement(GamePresenter.Instance.MinEnemyPerTile, GamePresenter.Instance.MaxEnemyPerTile,
                 this.enemySpawnTransforms, this.enemyPool, ref this.activeEnemies);
 
+            // Initialize enemies
+            foreach (var enemy in this.activeEnemies)
+            {
+                // Set gameplay value (damage)
+                enemy.damageOnCollision = GamePresenter.Instance.DamagePerCollision;
+
+                // Set bullet's gameplay value (damage)
+                // todo:
+            }
+
             // Spawn collectables
             this.SpawnGameplayElement(GamePresenter.Instance.MinCollectablePerTile, GamePresenter.Instance.MaxCollectablePerTile,
                 this.collectableSpawnTransforms, this.collectablesPool, ref this.activeCollectables);
+
+            // Initialize collectables
+            foreach (var collectable in this.activeCollectables)
+            {
+                // Set gameplay value (reward)
+                collectable.CollectableValue = GamePresenter.Instance.RewardPerCollectable;
+            }
         }
 
 
         /// <summary>
         /// Spawn random amount of gameplay elements on the environment
         /// </summary>
-        private void SpawnGameplayElement(int minElementPerTile, int maxElementPerTile, Transform[] spawnLocations,
-            GenericPoolSystem elementPool, ref List<GameplayElementController> activeElements)
+        private void SpawnGameplayElement<T>(int minElementPerTile, int maxElementPerTile, Transform[] spawnLocations,
+            GenericPoolSystem elementPool, ref List<T> activeElements)
         {
             // Spawn random amount of elements
             int elementsToSpawn = Random.Range(minElementPerTile, maxElementPerTile);
@@ -98,7 +115,7 @@ namespace SpecterOps
                     break;
 
                 // Get element instance from the predefined pool
-                GameplayElementController spawnedElement = elementPool.GetObject().GetComponent<GameplayElementController>();
+                GameObject spawnedElement = elementPool.GetObject();
 
                 // Get and use element spawn position
                 spawnedElement.transform.parent = elementSpawnLocations[elementSpawnLocations.Count - 1];
@@ -108,7 +125,7 @@ namespace SpecterOps
                 elementSpawnLocations.RemoveAt(elementSpawnLocations.Count - 1);
 
                 // Register active element
-                activeElements.Add(spawnedElement);
+                activeElements.Add(spawnedElement.GetComponent<T>());
             }
         }
 

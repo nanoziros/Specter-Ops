@@ -20,6 +20,7 @@
         // Shake variables
         public float ShakeDuration = 0.5f;
         public float ShakeMagnitude = 1.0f;
+        public int ShakeVibrato = 20;
         private Tween shakeTween;
 
         /// <summary>
@@ -45,11 +46,11 @@
         public void ShakeMainCamera()
         {
             // If we are currently shaking, stop it and kill the tween so we can reuse it
-            if (this.shakeTween != null || this.shakeTween.IsPlaying())
+            if (this.shakeTween != null && this.shakeTween.IsPlaying())
                 this.shakeTween.Kill();
 
             // Execute shake tween
-            this.shakeTween = this.MainCamera.DOShakePosition(this.ShakeDuration, this.ShakeMagnitude);
+            this.shakeTween = this.MainCamera.DOShakePosition(this.ShakeDuration, this.ShakeMagnitude,this.ShakeVibrato);
         }
     }
 }
