@@ -14,5 +14,11 @@
         /// </summary>
         public virtual void PlayerImpact()
         { }
+
+        /// <summary>
+        /// Method called to update object state
+        /// </summary>
+        public virtual void UpdateObject()
+        { }
     }
 }

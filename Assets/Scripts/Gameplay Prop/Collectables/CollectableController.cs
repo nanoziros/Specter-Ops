@@ -9,7 +9,16 @@
     public class CollectableController : GameplayElementController
     {
         // Score awarded to the player on collection
-        public int CollectableValue = 1;
+        public int CollectableValue { get; private set; }
+
+        /// <summary>
+        /// Use this for initialization
+        /// </summary>
+        public void Initialize(int collectableValue)
+        {
+            // Set initial parameters
+            this.CollectableValue = collectableValue;
+        }
 
         /// <summary>
         /// Method called on player impact

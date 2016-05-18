@@ -86,5 +86,14 @@
             // Return new object
             return newObj;
         }
+
+        /// <summary>
+        /// Returns a list with all pooled gameobjects
+        /// </summary>
+        /// <returns></returns>
+        public List<GameObject> GetAllPooledObjects()
+        {
+            return new List<GameObject>(this.pooledObjects);
+        } 
     }
 }

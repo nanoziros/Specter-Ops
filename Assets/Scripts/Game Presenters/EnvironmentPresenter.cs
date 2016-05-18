@@ -18,7 +18,7 @@
         private List<EnvironmentTilePresenter> currentEnvironmentTiles; 
 
         // Tiles presentation parameters
-        [Range(0,1)]
+        [Range(0,3)]
         public float PlayerSpeedMultiplier = 0.2f;
         private float distanceBetweenTiles = 6.0f;
 
@@ -26,6 +26,9 @@
         [Range(1,5)]
         public int PooledTiles = 3;
         private GenericPoolSystem tilePool;
+
+        // Reference parameters
+        public Vector3 WorldVelocity = Vector3.zero;
 
         /// <summary>
         /// Get the initial spawn point for the player
@@ -47,6 +50,16 @@
         }
 
         /// <summary>
+        /// Call this method to update the environment and its tiles
+        /// </summary>
+        public void UpdateEnvironment()
+        {
+            // Update every tile and its elements
+            foreach (var tile in this.currentEnvironmentTiles)
+                tile.UpdateEnvironmentTile();
+        }
+
+        /// <summary>
         /// Move the tile downwards and reset it when it gets bellow a set position
         /// </summary>
         IEnumerator TileAnimation(EnvironmentTilePresenter tile)
@@ -61,8 +74,9 @@
                 if (GamePresenter.Instance.CurrentMatchState == GamePresenter.GameState.Running)
                 {
                     // Move tile downwards
-                    tile.transform.position += -Vector3.up*GamePresenter.Instance.PlayerPresenter.Player.PlayerSpeed* this.PlayerSpeedMultiplier *
-                                               Time.deltaTime;
+                    this.WorldVelocity = -Vector3.up*GamePresenter.Instance.PlayerPresenter.Player.PlayerSpeed*
+                                         this.PlayerSpeedMultiplier;
+                    tile.transform.position += this.WorldVelocity * Time.deltaTime;
 
                     // If tile is bellow visual threshold, reset it
                     if(tile.transform.position.y <= destination)

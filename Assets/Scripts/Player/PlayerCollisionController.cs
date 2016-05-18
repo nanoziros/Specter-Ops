@@ -14,7 +14,8 @@
         // Colission events
         public event Action<EnemyController> EnemyCollided;
         public event Action<CollectableController> CollectableCollided;
-        
+        public event Action<EnemyProjectileController> EnemyProjectileCollided;
+
         /// <summary>
         /// On trigger enter event
         /// </summary>
@@ -47,6 +48,17 @@
                     // Request collectable collision response (raise event)
                     Action<CollectableController> handler = this.CollectableCollided;
                     if (handler != null) { handler(collectable); }
+                }
+                else
+                {
+                    // Projectile impact
+                    EnemyProjectileController projectile = element as EnemyProjectileController;
+                    if (projectile != null)
+                    {
+                        // Request collectable collision response (raise event)
+                        Action<EnemyProjectileController> handler = this.EnemyProjectileCollided;
+                        if (handler != null) { handler(projectile); }
+                    }
                 }
             }
 

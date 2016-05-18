@@ -1,10 +1,9 @@
-﻿using System.Linq;
-
-namespace SpecterOps
+﻿namespace SpecterOps
 {
     using UnityEngine;
     using System.Collections.Generic;
     using Utilities;
+    using System.Linq;
 
     /// <summary>
     /// Manages an environment tile instance, along with its turrets and pickups
@@ -51,6 +50,16 @@ namespace SpecterOps
         }
 
         /// <summary>
+        /// Call this method to update the elements in the environment tile
+        /// </summary>
+        public void UpdateEnvironmentTile()
+        {
+            // Update all active enemy turrets
+            foreach (var enemy in this.activeEnemies)
+                enemy.UpdateEnemy();
+        }
+
+        /// <summary>
         /// Spawn enemies and collectables using the rules defined in game presenter
         /// </summary>
         private void SpawnGameplayElements()
@@ -73,13 +82,8 @@ namespace SpecterOps
 
             // Initialize enemies
             foreach (var enemy in this.activeEnemies)
-            {
-                // Set gameplay value (damage)
-                enemy.damageOnCollision = GamePresenter.Instance.DamagePerCollision;
-
-                // Set bullet's gameplay value (damage)
-                // todo:
-            }
+                enemy.Initialize(GamePresenter.Instance.DamagePerCollision, GamePresenter.Instance.DamagePerProjectile,
+                    GamePresenter.Instance.ProjectileSpeed);
 
             // Spawn collectables
             this.SpawnGameplayElement(GamePresenter.Instance.MinCollectablePerTile, GamePresenter.Instance.MaxCollectablePerTile,
@@ -89,7 +93,7 @@ namespace SpecterOps
             foreach (var collectable in this.activeCollectables)
             {
                 // Set gameplay value (reward)
-                collectable.CollectableValue = GamePresenter.Instance.RewardPerCollectable;
+                collectable.Initialize(GamePresenter.Instance.RewardPerCollectable);
             }
         }
 

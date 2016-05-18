@@ -47,8 +47,9 @@
             this.movementController.Initialize(GamePresenter.Instance.CameraRigPresenter.BoundariesCamera);
 
             // Subscribe to collision events
-            this.collisionController.CollectableCollided += this.CollectableCollided;
-            this.collisionController.EnemyCollided += this.EnemyCollided;
+            this.collisionController.CollectableCollided     += this.CollectableCollided;
+            this.collisionController.EnemyCollided           += this.EnemyCollided;
+            this.collisionController.EnemyProjectileCollided += this.EnemyProjectileCollided;
 
             // Mark control flags
             this.isInitialized = true;
@@ -123,7 +124,19 @@
             GamePresenter.Instance.CameraRigPresenter.ShakeMainCamera();
 
             // Apply damage
-            this.RemoveLifePoint(enemy.damageOnCollision);
+            this.RemoveLifePoint(enemy.DamageOnCollision);
+        }
+
+        /// <summary>
+        /// Execute vfx and apply damage
+        /// </summary>
+        private void EnemyProjectileCollided(EnemyProjectileController projectile)
+        {
+            // Request camera shake
+            GamePresenter.Instance.CameraRigPresenter.ShakeMainCamera();
+
+            // Apply damage
+            this.RemoveLifePoint(projectile.DamageOnCollision);
         }
         #endregion
     }

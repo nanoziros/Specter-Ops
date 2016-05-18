@@ -14,6 +14,7 @@
         public PlayerPresenter PlayerPresenter { get; private set; }
         public EnvironmentPresenter EnvironmentPresenter { get; private set; }
         public CameraRigPresenter CameraRigPresenter { get; private set; }
+        public ProjectilePresenter ProjectilePresenter { get; private set; }
 
         // Match parameters
         [Header("Match Time")]
@@ -28,6 +29,8 @@
         [Header("Enemies Parameters")]
         public EnemyController EnemyPrefab;
         public int DamagePerCollision = 1;
+        public int DamagePerProjectile = 1;
+        public float ProjectileSpeed = 3;
         [Range(0, 18)]
         public int MinEnemyPerTile = 1;
         [Range(0, 18)]
@@ -67,8 +70,13 @@
             this.PlayerPresenter = this.GetComponentInChildren<PlayerPresenter>();
             this.EnvironmentPresenter = this.GetComponentInChildren<EnvironmentPresenter>();
             this.CameraRigPresenter = this.GetComponentInChildren<CameraRigPresenter>();
+            this.ProjectilePresenter = this.GetComponentInChildren<ProjectilePresenter>();
+
+            // Load gameplay information from scripteable object
+            // todo:
 
             // Initialize core presenters
+            this.ProjectilePresenter.Initialize();
             this.EnvironmentPresenter.Initialize();
             this.PlayerPresenter.Initialize(this.EnvironmentPresenter);
 
@@ -94,10 +102,16 @@
             // Update player
             this.PlayerPresenter.Player.UpdatePlayer();
 
+            // Update environment tiles
+            this.EnvironmentPresenter.UpdateEnvironment();
+
+            // Update projectiles
+            this.ProjectilePresenter.UpdateProjectiles();
+
             // Update camera
             this.CameraRigPresenter.UpdateMainCamera();
 
-            // Check if the player has died, if so, end the match
+            // Check if the player has died and, if so, end the match
             if(this.PlayerPresenter.Player.CurrentHealthPoints <= 0)
                 this.EndMatch();
         }
@@ -127,7 +141,13 @@
             // Player died and therefore lost (ignore his score)
             if (this.PlayerPresenter.Player.CurrentHealthPoints <= 0)
             {
+                // Calculate final score
+                int finalScore = this.PlayerPresenter.Player.CurrentHealthPoints +
+                                 this.PlayerPresenter.Player.CurrentCollectables;
+
                 // todo:
+                Debug.Log("You Lost! Your score is " + finalScore);
+
             }
             // Player ended the level
             else
@@ -136,8 +156,8 @@
                 int finalScore = this.PlayerPresenter.Player.CurrentHealthPoints +
                                  this.PlayerPresenter.Player.CurrentCollectables;
 
-                Debug.Log(finalScore);
                 // todo:
+                Debug.Log("You won! Your score is " + finalScore);
             }
         }
 
