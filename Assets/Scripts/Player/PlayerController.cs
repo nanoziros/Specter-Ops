@@ -18,6 +18,12 @@
         public int CurrentHealthPoints { get; private set; }
         public int CurrentCollectables { get; private set; }
 
+        // Invulnerability state
+        [Range(0,4)]
+        public float PostDamageInvulnerability = 1.0f;
+        private float invulnerabilityTimer = 0.0f;
+        private bool isInvulnerable = false;
+
         // Player parameters
         public float PlayerSpeed { get { return this.movementController.MovementSpeed; } }
 
@@ -70,14 +76,16 @@
         }
 
         /// <summary>
-        /// Update is called once per frame 
+        /// Update is called once per frame by gamepresenter
         /// </summary>
         public void UpdatePlayer()
         {
             // Update player input given the current input key configuration
             this.inputController.UpdateInput(); 
-        }
 
+            // Update invulnerability state
+            this.UpdatePostImpactInvulnerability();
+        }
         /// <summary>
         /// Update is called once per physics frame 
         /// </summary>
@@ -87,6 +95,45 @@
             this.movementController.FixedUpdateMovement(this.inputController.InputInstance);
         }
 
+        #region Special Statuses
+        /// <summary>
+        /// Update post impact invulnerability timer
+        /// </summary>
+        private void UpdatePostImpactInvulnerability()
+        {
+            if (this.isInvulnerable)
+            {
+                // Update timer
+                this.invulnerabilityTimer += Time.deltaTime;
+                // Check if we must disable invulnerabiliy now
+                if (this.invulnerabilityTimer > this.PostDamageInvulnerability)
+                {
+                    // Reset timer and set flag
+                    this.invulnerabilityTimer = 0;
+                    this.isInvulnerable = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets the invulnerability flag and request vfx
+        /// </summary>
+        private void StartInvulnerability()
+        {
+            // Ignore if we were already invulnerable
+            if (this.isInvulnerable)
+                return;
+
+            // Call vfx
+            // todo:
+
+            // Set flag
+            this.isInvulnerable = true;
+        }
+
+        #endregion
+
+        #region Score & Status Modifiers
         /// <summary>
         /// Called when the player earns a new collectable
         /// </summary>
@@ -105,6 +152,7 @@
             this.CurrentHealthPoints = Mathf.Clamp(this.CurrentHealthPoints - damage, 0, this.CurrentHealthPoints);
         }
 
+        #endregion
         #region Core Player Event Callbacks
         /// <summary>
         /// Execute vfx and apply collectable reward
@@ -113,6 +161,9 @@
         {
             // Apply collectable reward
             this.AddCollectable(collectable.CollectableValue);
+
+            // Finally, execute report to the object itself that it has impacted a player
+            collectable.PlayerImpact();
         }
 
         /// <summary>
@@ -120,11 +171,21 @@
         /// </summary>
         private void EnemyCollided(EnemyController enemy)
         {
+            // Ignore this call if the player is invulnerable
+            if (this.isInvulnerable) return;
+
             // Request camera shake
             GamePresenter.Instance.CameraRigPresenter.ShakeMainCamera();
 
             // Apply damage
             this.RemoveLifePoint(enemy.DamageOnCollision);
+
+            // Request post damage invulnerability if we didn't die
+            if(this.CurrentHealthPoints >0)
+                this.StartInvulnerability();
+
+            // Finally, execute report to the object itself that it has impacted a player
+            enemy.PlayerImpact();
         }
 
         /// <summary>
@@ -132,11 +193,21 @@
         /// </summary>
         private void EnemyProjectileCollided(EnemyProjectileController projectile)
         {
+            // Ignore this call if the player is invulnerable
+            if (this.isInvulnerable) return;
+
             // Request camera shake
             GamePresenter.Instance.CameraRigPresenter.ShakeMainCamera();
 
             // Apply damage
             this.RemoveLifePoint(projectile.DamageOnCollision);
+
+            // Request post damage invulnerability if we didn't die
+            if (this.CurrentHealthPoints > 0)
+                this.StartInvulnerability();
+
+            // Finally, execute report to the object itself that it has impacted a player
+            projectile.PlayerImpact();
         }
         #endregion
     }

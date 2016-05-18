@@ -61,9 +61,6 @@
                     }
                 }
             }
-
-            // Finally, execute report to the object itself that it has impacted a player
-            element.PlayerImpact();
         }
     }
 }
