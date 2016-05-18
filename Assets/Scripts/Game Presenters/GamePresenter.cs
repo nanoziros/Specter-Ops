@@ -16,6 +16,7 @@
         public CameraRigPresenter CameraRigPresenter { get; private set; }
         public ProjectilePresenter ProjectilePresenter { get; private set; }
         public GameDataPresenter DataPresenter { get; private set; }
+        public GameUIPresenter UIPresenter { get; private set; }
 
         // Match preferences and variable gameplay configuration
         public GamePrefs GamePrefs { get {return this.DataPresenter.GamePrefs; } }
@@ -61,6 +62,7 @@
             this.EnvironmentPresenter = this.GetComponentInChildren<EnvironmentPresenter>();
             this.CameraRigPresenter = this.GetComponentInChildren<CameraRigPresenter>();
             this.ProjectilePresenter = this.GetComponentInChildren<ProjectilePresenter>();
+            this.UIPresenter = this.GetComponentInChildren<GameUIPresenter>();
 
             // Load gameplay information from scripteable object
             if (!this.DataPresenter.Load())

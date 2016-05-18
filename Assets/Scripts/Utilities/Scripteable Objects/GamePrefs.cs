@@ -12,9 +12,12 @@ public class GamePrefs : ScriptableObject
     public float MatchDuration;
 
     [Header("Environment Parameters")]
+    [Tooltip("To avoid the appareance of slower projectiles, this value must be lower than EnemyProjectileSpeed")]
+    [Range(0.1f,100.0f)]
     public float EnvironmentSpeed;
 
     [Header("Player Parameters")]
+    [Range(0.1f, 100.0f)]
     public float PlayerSpeed;
     public int PlayerHealth;
 
@@ -25,6 +28,8 @@ public class GamePrefs : ScriptableObject
     public int MaxEnemyPerTile;
     public int EnemyCollisionDamage;
     public int EnemyProjectileDamage;
+    [Tooltip("To avoid the appareance of slower projectiles, this value must be higher than EnvironmentSpeed")]
+    [Range(0.1f, 100.0f)]
     public float EnemyProjectileSpeed;
 
     [Header("Collectable Parameters")]
