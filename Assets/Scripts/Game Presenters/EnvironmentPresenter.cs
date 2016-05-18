@@ -61,7 +61,7 @@
                 if (GamePresenter.Instance.CurrentMatchState == GamePresenter.GameState.Running)
                 {
                     // Move tile downwards
-                    tile.transform.position += -Vector3.up*GamePresenter.Instance.PlayerPresenter.Player.PlayerSpeed*
+                    tile.transform.position += -Vector3.up*GamePresenter.Instance.PlayerPresenter.Player.PlayerSpeed* this.PlayerSpeedMultiplier *
                                                Time.deltaTime;
 
                     // If tile is bellow visual threshold, reset it
