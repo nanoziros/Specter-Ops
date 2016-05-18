@@ -4,9 +4,7 @@
     using Utilities;
 
     using System.Collections.Generic;
-    using System.Linq;
-
-    using DG.Tweening;
+    using System.Collections;
 
     /// <summary>
     /// Manages the endless runner environment, activating and deactivating rooms as required
@@ -25,6 +23,7 @@
         private float distanceBetweenTiles = 6.0f;
 
         // Pool parameters
+        [Range(1,5)]
         public int PooledTiles = 3;
         private GenericPoolSystem tilePool;
 
@@ -43,27 +42,36 @@
         public void StartEnvironmentAnimation()
         {
             // Move each tile downwards
-            for (int index = 0; index < this.currentEnvironmentTiles.Count; index++)
-            {
-                // Calculate final downwards position (this was made through trial and error so please place special attention here while debugging)
-                var tile = this.currentEnvironmentTiles[index];
-                float destination = -this.distanceBetweenTiles*(this.currentEnvironmentTiles.Count - index - 1);
-
-                // Execute downwards animation, when it finish, restart it and re initialize the tile so new collectables and enemies can spawn
-                tile.transform.DOMoveY(destination,
-                    GamePresenter.Instance.PlayerPresenter.Player.PlayerSpeed*
-                    this.PlayerSpeedMultiplier).SetLoops(-1, LoopType.Restart).SetSpeedBased().SetEase(Ease.Linear).OnStepComplete(tile.Initialize);
-            }
+            foreach (var tile in this.currentEnvironmentTiles)
+                StartCoroutine("TileAnimation", tile);
         }
 
         /// <summary>
-        /// Stop and kill current environment animation
+        /// Move the tile downwards and reset it when it gets bellow a set position
         /// </summary>
-        public void StopEnvironmentAnimation()
+        IEnumerator TileAnimation(EnvironmentTilePresenter tile)
         {
-            foreach (var tile in this.currentEnvironmentTiles)
-                tile.transform.DOKill();
-        }
+            // Calculate destination
+            float destination = -this.distanceBetweenTiles * 2;
+
+            // Execute animation as long as the match hasn't ended
+            while (GamePresenter.Instance.CurrentMatchState != GamePresenter.GameState.Ended)
+            {
+                // Only update tile if the game is running
+                if (GamePresenter.Instance.CurrentMatchState == GamePresenter.GameState.Running)
+                {
+                    // Move tile downwards
+                    tile.transform.position += -Vector3.up*GamePresenter.Instance.PlayerPresenter.Player.PlayerSpeed*
+                                               Time.deltaTime;
+
+                    // If tile is bellow visual threshold, reset it
+                    if(tile.transform.position.y <= destination)
+                        this.ResetTile(tile);
+                }
+                yield return null;
+            }
+
+        }  
 
         /// <summary>
         /// Generate initial enviroment tiles and fill the currentEnvironmentTiles list
@@ -85,7 +93,7 @@
             // Add instanced environment tiles to current environment stack
             this.currentEnvironmentTiles = new List<EnvironmentTilePresenter>();
 
-            // Add initial tile but DON'T initialize it (we don't want to spawn anything on it)
+            // Add first initial tile but DON'T initialize it (we don't want to spawn anything on it)
             this.currentEnvironmentTiles.Add(nObj.GetComponent<EnvironmentTilePresenter>()); 
 
             // Add remaining tiles and initialize them
@@ -96,7 +104,9 @@
                 this.currentEnvironmentTiles.Add(tilePresenter);
 
                 // Spawn initial enemies and collectables
-                tilePresenter.Initialize();
+                // NOTE: We DON'T want to initialize the second tile either (this is where the player will start the game)
+                if(i>1)
+                    tilePresenter.Initialize();
             }
 
             // Now we need to get the world space size of the floor sprites
@@ -111,16 +121,31 @@
         }
 
         #region Utilities
+
+        /// <summary>
+        /// Send tile back to the top of possible positions and reinitialize it
+        /// </summary>
+        private void ResetTile(EnvironmentTilePresenter tile)
+        {
+            // Set new tile position
+            tile.transform.position = new Vector3(this.transform.position.x, (this.currentEnvironmentTiles.Count - 2) * this.distanceBetweenTiles, 0);
+
+            // Reinitialize tile
+            tile.Initialize();
+        }
+
         /// <summary>
         /// Get the initial spawn point for the player
         /// </summary>
         public Vector3 GetInitialPosition()
         {
+            // Report errorif the second environment tile isn't available
             if (this.currentEnvironmentTiles == null || this.currentEnvironmentTiles.Count<2)
             {
                 Debug.LogError("currentEnvironmentTiles is empty");
                 return Vector3.zero;
             }
+            // Otherwise send the prope spawn position ( the second environment tile's player spawn position)
             else
             {
                 return this.currentEnvironmentTiles[1].PlayerSpawnTransform.position;

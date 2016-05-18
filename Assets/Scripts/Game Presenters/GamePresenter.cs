@@ -121,9 +121,6 @@
             // Set end game state
             this.CurrentMatchState = GameState.Ended;
 
-            // Stop environment animation
-            this.EnvironmentPresenter.StopEnvironmentAnimation();
-
             // we must check if the game ended because of completion or because the player died
             // Player died and therefore lost (ignore his score)
             if (this.PlayerPresenter.Player.CurrentHealthPoints <= 0)

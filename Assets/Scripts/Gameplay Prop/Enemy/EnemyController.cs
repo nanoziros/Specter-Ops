@@ -6,7 +6,8 @@
     /// <summary>
     /// Core enemy manager and hub
     /// </summary>
-    public class EnemyController : MonoBehaviour {
+    public class EnemyController : GameplayElementController
+    {
 
     }
 }
