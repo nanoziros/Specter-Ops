@@ -95,8 +95,12 @@
         /// </summary>
         void Update()
         {
+            // Update camera
+            if (GamePresenter.Instance.CurrentMatchState != GamePresenter.GameState.NonStarted)
+                this.CameraRigPresenter.UpdateMainCamera();
+
             // Don't execute gameplay updates if the game isn't running
-            if(GamePresenter.Instance.CurrentMatchState != GamePresenter.GameState.Running)
+            if (GamePresenter.Instance.CurrentMatchState != GamePresenter.GameState.Running)
                 return;
 
             // Update player
@@ -107,9 +111,6 @@
 
             // Update projectiles
             this.ProjectilePresenter.UpdateProjectiles();
-
-            // Update camera
-            this.CameraRigPresenter.UpdateMainCamera();
 
             // Check if the player has died and, if so, end the match
             if(this.PlayerPresenter.Player.CurrentHealthPoints <= 0)

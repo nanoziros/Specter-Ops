@@ -26,6 +26,9 @@
             
             // Calculate directional vector
             this.directionVector = destination - this.transform.position;
+
+            // Firing vector debug
+            // todo: remove
             Debug.DrawLine(this.transform.position, this.transform.position + this.directionVector, Color.red,2.0f);
         }
 

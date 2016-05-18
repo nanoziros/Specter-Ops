@@ -18,17 +18,14 @@
         private List<EnvironmentTilePresenter> currentEnvironmentTiles; 
 
         // Tiles presentation parameters
-        [Range(0,3)]
-        public float PlayerSpeedMultiplier = 0.2f;
+        [Range(1, 10)]
+        public float EnvironmentSpeed = 3.0f;
         private float distanceBetweenTiles = 6.0f;
 
         // Pool parameters
         [Range(1,5)]
         public int PooledTiles = 3;
         private GenericPoolSystem tilePool;
-
-        // Reference parameters
-        public Vector3 WorldVelocity = Vector3.zero;
 
         /// <summary>
         /// Get the initial spawn point for the player
@@ -74,9 +71,7 @@
                 if (GamePresenter.Instance.CurrentMatchState == GamePresenter.GameState.Running)
                 {
                     // Move tile downwards
-                    this.WorldVelocity = -Vector3.up*GamePresenter.Instance.PlayerPresenter.Player.PlayerSpeed*
-                                         this.PlayerSpeedMultiplier;
-                    tile.transform.position += this.WorldVelocity * Time.deltaTime;
+                    tile.transform.position += -Vector3.up * this.EnvironmentSpeed * Time.deltaTime;
 
                     // If tile is bellow visual threshold, reset it
                     if(tile.transform.position.y <= destination)

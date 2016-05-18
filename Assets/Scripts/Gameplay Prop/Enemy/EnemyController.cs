@@ -51,7 +51,8 @@
         public void UpdateEnemy()
         {
             // Only update the turret if it's visible by any camera
-            if (!this.BaseRenderer.isVisible)
+            // and if the turrets are above the player position (otherwise the game is too hard!!)
+            if (!this.BaseRenderer.isVisible || this.transform.position.y < GamePresenter.Instance.PlayerPresenter.Player.transform.position.y)
                 return;
 
             // Update attack coldown
