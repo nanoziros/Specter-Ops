@@ -13,6 +13,8 @@
         private PlayerInputController inputController;
         private PlayerMovementController movementController;
         private PlayerCollisionController collisionController;
+        private PlayerAnimationController animationController;
+        private PlayerVFXController vfxController;
 
         // Player health & scoring
         public int CurrentHealthPoints { get; private set; }
@@ -40,15 +42,19 @@
 
             // Set initial health and collectables
             // todo: get initial health points from scriptable object
-            this.CurrentHealthPoints = 1;
+            this.CurrentHealthPoints = 2;
             this.CurrentCollectables = 0;
 
             // Get core player component  references
             this.inputController = this.GetComponent<PlayerInputController>();
             this.movementController = this.GetComponent<PlayerMovementController>();
             this.collisionController = this.GetComponent<PlayerCollisionController>();
+            this.animationController = this.GetComponentInChildren<PlayerAnimationController>();
+            this.vfxController = this.GetComponentInChildren<PlayerVFXController>();
 
             // Initialize player components
+            this.animationController.Initialize();
+            this.vfxController.Initialize(this.animationController.PlayerSpriteRenderer);
             this.inputController.Initialize();
             this.movementController.Initialize(GamePresenter.Instance.CameraRigPresenter.BoundariesCamera);
 
@@ -70,7 +76,7 @@
             if (!this.isInitialized)
                 return;
 
-            // Unsubscribe to collision events
+            // Unsubscribe collision events
             this.collisionController.CollectableCollided -= this.CollectableCollided;
             this.collisionController.EnemyCollided -= this.EnemyCollided;
         }
@@ -87,7 +93,7 @@
             this.UpdatePostImpactInvulnerability();
         }
         /// <summary>
-        /// Update is called once per physics frame 
+        /// FixedUpdate is called once per physics frame 
         /// </summary>
         public void FixedPlayerUpdate()
         {
@@ -111,6 +117,9 @@
                     // Reset timer and set flag
                     this.invulnerabilityTimer = 0;
                     this.isInvulnerable = false;
+
+                    // Turn off vfx
+                    this.vfxController.ManageInvulnerabilityVFX(false);
                 }
             }
         }
@@ -124,8 +133,8 @@
             if (this.isInvulnerable)
                 return;
 
-            // Call vfx
-            // todo:
+            // Request vfx
+            this.vfxController.ManageInvulnerabilityVFX(true);
 
             // Set flag
             this.isInvulnerable = true;
