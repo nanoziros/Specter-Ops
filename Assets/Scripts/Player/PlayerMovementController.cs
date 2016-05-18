@@ -9,7 +9,7 @@
 
         // Boundaries variables
         public Boundaries MovementBoundaries;
-        public Boundaries worldSpaceBoundaries;
+        private Boundaries worldSpaceBoundaries;
         private Camera coreCamera;
         /// <summary>
         /// Use this for initialization
