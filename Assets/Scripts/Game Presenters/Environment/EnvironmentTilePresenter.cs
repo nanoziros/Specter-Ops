@@ -69,31 +69,31 @@
             {
                 // Generate enemies
                 this.enemyPool = new GenericPoolSystem(GamePresenter.Instance.EnemyPrefab.gameObject,
-                    GamePresenter.Instance.MaxEnemyPerTile, this.enemiesParent);
+                    GamePresenter.Instance.GamePrefs.MaxEnemyPerTile, this.enemiesParent);
 
                 // Generate collectables
                 this.collectablesPool = new GenericPoolSystem(GamePresenter.Instance.CollectablePrefab.gameObject,
-                    GamePresenter.Instance.MaxCollectablePerTile, this.collectablesParent);
+                    GamePresenter.Instance.GamePrefs.MaxCollectablePerTile, this.collectablesParent);
             }
 
             // Spawn enemies
-            this.SpawnGameplayElement(GamePresenter.Instance.MinEnemyPerTile, GamePresenter.Instance.MaxEnemyPerTile,
+            this.SpawnGameplayElement(GamePresenter.Instance.GamePrefs.MinEnemyPerTile, GamePresenter.Instance.GamePrefs.MaxEnemyPerTile,
                 this.enemySpawnTransforms, this.enemyPool, ref this.activeEnemies);
 
             // Initialize enemies
             foreach (var enemy in this.activeEnemies)
-                enemy.Initialize(GamePresenter.Instance.DamagePerCollision, GamePresenter.Instance.DamagePerProjectile,
-                    GamePresenter.Instance.ProjectileSpeed);
+                enemy.Initialize(GamePresenter.Instance.GamePrefs.EnemyCollisionDamage, GamePresenter.Instance.GamePrefs.EnemyProjectileDamage,
+                    GamePresenter.Instance.GamePrefs.EnemyProjectileSpeed);
 
             // Spawn collectables
-            this.SpawnGameplayElement(GamePresenter.Instance.MinCollectablePerTile, GamePresenter.Instance.MaxCollectablePerTile,
+            this.SpawnGameplayElement(GamePresenter.Instance.GamePrefs.MinCollectablePerTile, GamePresenter.Instance.GamePrefs.MaxCollectablePerTile,
                 this.collectableSpawnTransforms, this.collectablesPool, ref this.activeCollectables);
 
             // Initialize collectables
             foreach (var collectable in this.activeCollectables)
             {
                 // Set gameplay value (reward)
-                collectable.Initialize(GamePresenter.Instance.RewardPerCollectable);
+                collectable.Initialize(GamePresenter.Instance.GamePrefs.RewardPerCollectable);
             }
         }
 

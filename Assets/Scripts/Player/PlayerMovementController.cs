@@ -3,10 +3,6 @@
     using UnityEngine;
 
     public class PlayerMovementController : MonoBehaviour {
-
-        // Movement parameters
-        public float MovementSpeed = 1.0f;
-
         // Boundaries variables
         public Boundaries MovementBoundaries;
         private Boundaries worldSpaceBoundaries;
@@ -33,7 +29,7 @@
             Vector3 movementInput = new Vector3(inputInstance.StrafeRight, inputInstance.MoveForward, 0);
 
             // Execute movemet based on player input
-            this.transform.position += movementInput*this.MovementSpeed * Time.fixedDeltaTime;
+            this.transform.position += movementInput* GamePresenter.Instance.GamePrefs.PlayerSpeed * Time.fixedDeltaTime;
 
             // Constrain player movement to screen space boundaries
             this.transform.position = new Vector2(Mathf.Clamp(this.transform.position.x, worldSpaceBoundaries.xMin, worldSpaceBoundaries.xMax),

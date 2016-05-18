@@ -26,9 +26,6 @@
         private float invulnerabilityTimer = 0.0f;
         private bool isInvulnerable = false;
 
-        // Player parameters
-        public float PlayerSpeed { get { return this.movementController.MovementSpeed; } }
-
         // Control parameters
         private bool isInitialized = false;
 
@@ -41,8 +38,7 @@
             this.transform.name = this.transform.name.Replace("(Clone)","");
 
             // Set initial health and collectables
-            // todo: get initial health points from scriptable object
-            this.CurrentHealthPoints = 2;
+            this.CurrentHealthPoints = GamePresenter.Instance.GamePrefs.PlayerHealth;
             this.CurrentCollectables = 0;
 
             // Get core player component  references

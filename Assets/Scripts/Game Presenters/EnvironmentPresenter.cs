@@ -18,8 +18,6 @@
         private List<EnvironmentTilePresenter> currentEnvironmentTiles; 
 
         // Tiles presentation parameters
-        [Range(1, 10)]
-        public float EnvironmentSpeed = 3.0f;
         private float distanceBetweenTiles = 6.0f;
 
         // Pool parameters
@@ -71,7 +69,7 @@
                 if (GamePresenter.Instance.CurrentMatchState == GamePresenter.GameState.Running)
                 {
                     // Move tile downwards
-                    tile.transform.position += -Vector3.up * this.EnvironmentSpeed * Time.deltaTime;
+                    tile.transform.position += -Vector3.up * GamePresenter.Instance.GamePrefs.EnvironmentSpeed * Time.deltaTime;
 
                     // If tile is bellow visual threshold, reset it
                     if(tile.transform.position.y <= destination)

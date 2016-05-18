@@ -15,12 +15,13 @@
         public EnvironmentPresenter EnvironmentPresenter { get; private set; }
         public CameraRigPresenter CameraRigPresenter { get; private set; }
         public ProjectilePresenter ProjectilePresenter { get; private set; }
+        public GameDataPresenter DataPresenter { get; private set; }
+
+        // Match preferences and variable gameplay configuration
+        public GamePrefs GamePrefs { get {return this.DataPresenter.GamePrefs; } }
 
         // Match parameters
-        [Header("Match Time")]
-        [Range(30,60)]
-        public float MatchDuration = 30.0f;
-
+        [Header("Match Parameters")]
         // Current match status
         public GameState CurrentMatchState = GameState.NonStarted;
         public float CurrentMatchDuration = 0.0f;
@@ -28,22 +29,10 @@
         // Enemy parameters
         [Header("Enemies Parameters")]
         public EnemyController EnemyPrefab;
-        public int DamagePerCollision = 1;
-        public int DamagePerProjectile = 1;
-        public float ProjectileSpeed = 3;
-        [Range(0, 18)]
-        public int MinEnemyPerTile = 1;
-        [Range(0, 18)]
-        public int MaxEnemyPerTile = 9;
 
         // Collectable parameters
         [Header("Collectable Parameters")]
         public CollectableController CollectablePrefab;
-        public int RewardPerCollectable = 1;
-        [Range(0, 18)]
-        public int MinCollectablePerTile = 1;
-        [Range(0, 18)]
-        public int MaxCollectablePerTile = 9;
 
         // Singleton
         private static GamePresenter _instance = null;
@@ -67,13 +56,15 @@
         void Start()
         {
             // Get core presenters
+            this.DataPresenter = this.GetComponentInChildren<GameDataPresenter>();
             this.PlayerPresenter = this.GetComponentInChildren<PlayerPresenter>();
             this.EnvironmentPresenter = this.GetComponentInChildren<EnvironmentPresenter>();
             this.CameraRigPresenter = this.GetComponentInChildren<CameraRigPresenter>();
             this.ProjectilePresenter = this.GetComponentInChildren<ProjectilePresenter>();
 
             // Load gameplay information from scripteable object
-            // todo:
+            if (!this.DataPresenter.Load())
+                return;
 
             // Initialize core presenters
             this.ProjectilePresenter.Initialize();
@@ -168,7 +159,7 @@
         IEnumerator UpdateMatchTimer()
         {
             // Execute timer
-            while (this.CurrentMatchDuration < this.MatchDuration)
+            while (this.CurrentMatchDuration < this.GamePrefs.MatchDuration)
             {
                 // Only update timer if the game is running
                 if(this.CurrentMatchState == GameState.Running)
