@@ -14,13 +14,31 @@
         public PlayerPresenter PlayerPresenter { get; private set; }
         public EnvironmentPresenter EnvironmentPresenter { get; private set; }
         public CameraRigPresenter CameraRigPresenter { get; private set; }
+
         // Match parameters
+        [Header("Match Time")]
         [Range(30,60)]
         public float MatchDuration = 30.0f;
 
         // Current match status
         public GameState CurrentMatchState = GameState.NonStarted;
         public float CurrentMatchDuration = 0.0f;
+
+        // Enemy parameters
+        [Header("Enemies Parameters")]
+        public EnemyController EnemyPrefab;
+        [Range(0, 18)]
+        public int MinEnemyPerTile = 1;
+        [Range(0, 18)]
+        public int MaxEnemyPerTile = 9;
+
+        // Collectable parameters
+        [Header("Collectable Parameters")]
+        public EnemyController CollectablePrefab;
+        [Range(0, 18)]
+        public int MinCollectablePerTile = 1;
+        [Range(0, 18)]
+        public int MaxCollectablePerTile = 9;
 
         // Singleton
         private static GamePresenter _instance = null;
@@ -71,9 +89,6 @@
             if(GamePresenter.Instance.CurrentMatchState != GamePresenter.GameState.Running)
                 return;
 
-            // Update environment
-            //this.EnvironmentPresenter.UpdateEnvironment();
-
             // Update player
             this.PlayerPresenter.Player.UpdatePlayer();
 
@@ -105,6 +120,9 @@
         {
             // Set end game state
             this.CurrentMatchState = GameState.Ended;
+
+            // Stop environment animation
+            this.EnvironmentPresenter.StopEnvironmentAnimation();
 
             // we must check if the game ended because of completion or because the player died
             // Player died and therefore lost (ignore his score)

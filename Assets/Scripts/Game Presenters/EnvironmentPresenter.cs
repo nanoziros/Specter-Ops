@@ -58,6 +58,15 @@
         }
 
         /// <summary>
+        /// Stop and kill current environment animation
+        /// </summary>
+        public void StopEnvironmentAnimation()
+        {
+            foreach (var tile in this.currentEnvironmentTiles)
+                tile.transform.DOKill();
+        }
+
+        /// <summary>
         /// Generate initial enviroment tiles and fill the currentEnvironmentTiles list
         /// </summary>
         private void GenerateEnvironmentTiles()
