@@ -14,7 +14,6 @@
     public class EnvironmentPresenter : MonoBehaviour
     {
         // Core prefabs
-        public GameObject InitialEnvironmentTilePrefab;
         public GameObject EnvironmentTilePrefab;
 
         // Active environment tiles
@@ -117,9 +116,15 @@
         /// </summary>
         public Vector3 GetInitialPosition()
         {
-            //todo: request this position from the bottom fo currentEnvironmentTiles
-            Debug.Log("Returning placeholder position");
-            return Vector3.zero;
+            if (this.currentEnvironmentTiles == null || this.currentEnvironmentTiles.Count<2)
+            {
+                Debug.LogError("currentEnvironmentTiles is empty");
+                return Vector3.zero;
+            }
+            else
+            {
+                return this.currentEnvironmentTiles[1].PlayerSpawnTransform.position;
+            }
         }
         #endregion
     }

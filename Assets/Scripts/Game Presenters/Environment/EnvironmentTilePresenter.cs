@@ -8,6 +8,10 @@
     /// </summary>
     public class EnvironmentTilePresenter : MonoBehaviour
     {
+        // Gameplay elements parents
+        public Transform enemiesParent;
+        public Transform collectablesParent;
+
         // Spawn positions parents
         public Transform PlayerSpawnTransform;
         public Transform EnemySpawnTransformParent;
@@ -44,7 +48,13 @@
             // Initialize pools if they are empty
             if (this.enemyPool == null && this.collectablesPool == null)
             {
-                
+                // Generate enemies
+                this.enemyPool = new GenericPoolSystem(GamePresenter.Instance.EnemyPrefab.gameObject,
+                    GamePresenter.Instance.MaxEnemyPerTile, this.enemiesParent);
+
+                // Generate collectables
+                this.enemyPool = new GenericPoolSystem(GamePresenter.Instance.CollectablePrefab.gameObject,
+                    GamePresenter.Instance.MaxCollectablePerTile, this.collectablesParent);
             }
         }
 

@@ -34,7 +34,7 @@
 
         // Collectable parameters
         [Header("Collectable Parameters")]
-        public EnemyController CollectablePrefab;
+        public CollectableController CollectablePrefab;
         [Range(0, 18)]
         public int MinCollectablePerTile = 1;
         [Range(0, 18)]
