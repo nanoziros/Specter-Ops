@@ -41,7 +41,7 @@
                 float matchMaxDuration = (GamePresenter.Instance.DataPresenter != null &&
                                           GamePresenter.Instance.GamePrefs != null)
                     ? GamePresenter.Instance.GamePrefs.MatchDuration
-                    : 0;
+                    : 1;
 
                 // Get current normalized duration
                 float normalizedDuration = GamePresenter.Instance.CurrentMatchDuration/matchMaxDuration;
