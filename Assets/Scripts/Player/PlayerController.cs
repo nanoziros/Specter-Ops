@@ -19,7 +19,7 @@
         // Player health & scoring
         public int CurrentHealthPoints { get; private set; }
         public int CurrentCollectables { get; private set; }
-
+        public int PlayerScore { get { return this.CurrentCollectables; } }
         // Invulnerability state
         [Range(0,4)]
         public float PostDamageInvulnerability = 1.0f;

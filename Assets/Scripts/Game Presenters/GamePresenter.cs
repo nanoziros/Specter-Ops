@@ -72,6 +72,7 @@
             this.ProjectilePresenter.Initialize();
             this.EnvironmentPresenter.Initialize();
             this.PlayerPresenter.Initialize(this.EnvironmentPresenter);
+            this.UIPresenter.Initialize();
 
             // Start game
             this.CurrentMatchState = GameState.Running;
@@ -135,29 +136,23 @@
             // Player died and therefore lost (ignore his score)
             if (this.PlayerPresenter.Player.CurrentHealthPoints <= 0)
             {
-                // Calculate final score
-                int finalScore = this.PlayerPresenter.Player.CurrentCollectables;
-
                 // Report game end
                 Action<GameResult,int> handler = this.MatchEnded;
-                if (handler != null) { handler(GameResult.Lose,finalScore); }
+                if (handler != null) { handler(GameResult.Lose,this.PlayerPresenter.Player.PlayerScore); }
 
                 // Debug
-                Debug.Log("You Lost! Your score is " + finalScore);
+                Debug.Log("You Lost! Your score is " + this.PlayerPresenter.Player.PlayerScore);
 
             }
             // Player ended the level so he/she won
             else
             {
-                // Calculate final score
-                int finalScore = this.PlayerPresenter.Player.CurrentCollectables;
-
                 // Report game end
                 Action<GameResult, int> handler = this.MatchEnded;
-                if (handler != null) { handler(GameResult.Win, finalScore); }
+                if (handler != null) { handler(GameResult.Win, this.PlayerPresenter.Player.PlayerScore); }
 
                 // Debug
-                Debug.Log("You won! Your score is " + finalScore);
+                Debug.Log("You won! Your score is " + this.PlayerPresenter.Player.PlayerScore);
             }
         }
 

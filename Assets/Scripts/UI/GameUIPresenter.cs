@@ -1,4 +1,5 @@
 ﻿using System;
+using DG.Tweening;
 
 namespace SpecterOps
 {
@@ -12,6 +13,14 @@ namespace SpecterOps
     {
         // Control parameters
         private bool isInitialized = false;
+
+        // Screen views
+        public GameObject DefeatScreen;
+        public GameObject VictoryScreen;
+
+        // Generic animations
+        public Ease PopUpAnimationEase = Ease.InBounce;
+        public float PopUpAnimationLength = 0.5f;
 
         // Timer cosmetic variables
         public Color FarTimeColor = Color.red;
@@ -68,7 +77,7 @@ namespace SpecterOps
         {
             get
             {
-                // Calculate and format remaining match time
+                // Calculate and format current player collectables
                 int currentCollectables = (GamePresenter.Instance.PlayerPresenter != null &&
                                            GamePresenter.Instance.PlayerPresenter.Player != null)
                     ? GamePresenter.Instance.PlayerPresenter.Player.CurrentCollectables
@@ -76,7 +85,18 @@ namespace SpecterOps
                 return currentCollectables.ToString();
             }
         }
-
+        public string FinalPlayerScore
+        {
+            get
+            {
+                // Get final player score
+                int playerScore = (GamePresenter.Instance.PlayerPresenter != null &&
+                                           GamePresenter.Instance.PlayerPresenter.Player != null)
+                    ? GamePresenter.Instance.PlayerPresenter.Player.PlayerScore
+                    : 0;
+                return playerScore.ToString();
+            }
+        }
         #endregion
 
         /// <summary>
@@ -85,7 +105,8 @@ namespace SpecterOps
         public void Initialize()
         {
             // Initialize screen views
-            // todo:
+            this.DefeatScreen.SetActive(false);
+            this.VictoryScreen.SetActive(false);
 
             // Subscribe to end game events
             GamePresenter.Instance.MatchEnded += this.DisplayMatchEndScreen;
@@ -115,10 +136,18 @@ namespace SpecterOps
             switch (result)
             {
                 case GamePresenter.GameResult.Win:
-                    // todo:
+                    // Activate view
+                    this.VictoryScreen.SetActive(true);
+                    // Pop up animation
+                    this.VictoryScreen.transform.localScale = Vector3.one*0.5f;
+                    this.VictoryScreen.transform.DOScale(1.0f,this.PopUpAnimationLength).SetEase(this.PopUpAnimationEase);
                     break;
                 case GamePresenter.GameResult.Lose:
-                    // todo:
+                    // Activate view
+                    this.DefeatScreen.SetActive(true);
+                    // Pop up animation
+                    this.DefeatScreen.transform.localScale = Vector3.one * 0.5f;
+                    this.DefeatScreen.transform.DOScale(1.0f, this.PopUpAnimationLength).SetEase(this.PopUpAnimationEase);
                     break;
             }
         }
