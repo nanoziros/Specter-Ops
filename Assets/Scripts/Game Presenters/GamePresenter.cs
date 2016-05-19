@@ -18,6 +18,7 @@
         public ProjectilePresenter ProjectilePresenter { get; private set; }
         public GameDataPresenter DataPresenter { get; private set; }
         public GameUIPresenter UIPresenter { get; private set; }
+        public GameSceneAudioPresenter AudioPresenter { get; private set; }
 
         // Match preferences and variable gameplay configuration
         public GamePrefs GamePrefs { get {return this.DataPresenter.GamePrefs; } }
@@ -63,6 +64,7 @@
             this.CameraRigPresenter = this.GetComponentInChildren<CameraRigPresenter>();
             this.ProjectilePresenter = this.GetComponentInChildren<ProjectilePresenter>();
             this.UIPresenter = this.GetComponentInChildren<GameUIPresenter>();
+            this.AudioPresenter = this.GetComponentInChildren<GameSceneAudioPresenter>();
 
             // Load gameplay information from scripteable object
             if (!this.DataPresenter.Load())
@@ -73,6 +75,7 @@
             this.EnvironmentPresenter.Initialize();
             this.PlayerPresenter.Initialize(this.EnvironmentPresenter);
             this.UIPresenter.Initialize();
+            this.AudioPresenter.Initialize();
 
             // Start game
             this.CurrentMatchState = GameState.Running;

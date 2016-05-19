@@ -13,7 +13,7 @@
         public static string GamePrefsName = "GamePreferences.asset";
 
         // Game data
-        public GamePrefs GamePrefs;
+        public GamePrefs GamePrefs { get; private set; }
 
         /// <summary>
         /// Load the game preferences object
