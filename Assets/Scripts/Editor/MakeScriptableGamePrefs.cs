@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.IO;
 using SpecterOps;
 using SpecterOps.Player;
 using UnityEditor;
@@ -45,8 +45,12 @@ public class MakeScriptableGamePrefs
             AltStrafeRight = KeyCode.RightArrow
         };
 
+        // Create parent folder
+        if(!Directory.Exists(GameDataPresenter.GamePrefsFolder))
+            Directory.CreateDirectory(GameDataPresenter.GamePrefsFolder);
+        
         // Save .asset file
-        AssetDatabase.CreateAsset(gamePrefs, GameDataPresenter.GamePrefsPath);
+        AssetDatabase.CreateAsset(gamePrefs, GameDataPresenter.GamePrefsFolder + GameDataPresenter.GamePrefsName);
         AssetDatabase.SaveAssets();
 
         // Focus on new asset

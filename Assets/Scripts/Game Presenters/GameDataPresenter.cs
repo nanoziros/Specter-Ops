@@ -9,7 +9,8 @@
     public class GameDataPresenter : MonoBehaviour
     {
         // Public game prefs path
-        public static string GamePrefsPath = "Assets/Resources/ScripteableObjects/GamePreferences.asset";
+        public static string GamePrefsFolder = "Assets/Resources/ScripteableObjects/";
+        public static string GamePrefsName = "GamePreferences.asset";
 
         // Game data
         public GamePrefs GamePrefs;
@@ -20,8 +21,8 @@
         public bool Load()
         {
             // Since we're going to use resources.load, we can remove the Assets/Resources prefix
-            string finalGamePrefsPath = GamePrefsPath.Replace("Assets/Resources/", "");
-            finalGamePrefsPath = finalGamePrefsPath.Replace(".asset", "");
+            string finalGamePrefsPath = GamePrefsFolder.Replace("Assets/Resources/", "");
+            finalGamePrefsPath += GamePrefsName.Replace(".asset", "");
 
             // Attempt to load the game prefs .asset
             this.GamePrefs = Resources.Load(finalGamePrefsPath) as GamePrefs;
