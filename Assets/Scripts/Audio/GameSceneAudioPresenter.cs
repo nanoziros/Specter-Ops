@@ -15,6 +15,9 @@ namespace SpecterOps
         public AudioSource MainAudioSource;
         public AudioSource SecondaryAudioSource;
 
+        // SFX audio source (used for individual & small audio clips)
+        public AudioSource SfxAudioSource;
+
         // Music cross fade parameters
         [Range(1,20)]
         public float CrossFadeDuration = 1.0f;
@@ -74,6 +77,16 @@ namespace SpecterOps
                     break;
             }
         }
+
+
+        #region SFX Clips
+
+        public void PlaySfxClip(AudioClip clip)
+        {
+            this.SfxAudioSource.PlayOneShot(clip,1.0f);
+        }
+
+        #endregion
 
         #region Music Themes
 
