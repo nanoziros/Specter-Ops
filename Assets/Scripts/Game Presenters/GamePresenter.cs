@@ -1,4 +1,6 @@
-﻿namespace SpecterOps
+﻿using System.Runtime.CompilerServices;
+
+namespace SpecterOps
 {
     using UnityEngine;
     using System.Collections;
@@ -39,16 +41,12 @@
         private static GamePresenter _instance = null;
         public static GamePresenter Instance
         {
-            get { return GamePresenter._instance; }
-        }
-
-        /// <summary>
-        /// Executed at the start of the game (Exclusively for singletons in this design)
-        /// </summary>
-        void Awake()
-        {
-            // Set singleton refere
-            GamePresenter._instance = this;
+            get
+            {
+                if (GamePresenter._instance == null)
+                    GamePresenter._instance = (GamePresenter) FindObjectOfType(typeof (GamePresenter));
+                return GamePresenter._instance;
+            }
         }
 
         /// <summary>
@@ -147,8 +145,7 @@
             else
             {
                 // Calculate final score
-                int finalScore = this.PlayerPresenter.Player.CurrentHealthPoints +
-                                 this.PlayerPresenter.Player.CurrentCollectables;
+                int finalScore = this.PlayerPresenter.Player.CurrentCollectables;
 
                 // todo:
                 Debug.Log("You won! Your score is " + finalScore);
