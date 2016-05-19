@@ -1,9 +1,8 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace SpecterOps
+﻿namespace SpecterOps
 {
     using UnityEngine;
     using System.Collections;
+    using System;
 
     /// <summary>
     /// This class is the core game manager during gameplay, it starts and ends a game session.
@@ -36,6 +35,9 @@ namespace SpecterOps
         // Collectable parameters
         [Header("Collectable Parameters")]
         public CollectableController CollectablePrefab;
+
+        // Game Events
+        public event Action<GameResult,int> MatchEnded;
 
         // Singleton
         private static GamePresenter _instance = null;
@@ -134,20 +136,27 @@ namespace SpecterOps
             if (this.PlayerPresenter.Player.CurrentHealthPoints <= 0)
             {
                 // Calculate final score
-                int finalScore = this.PlayerPresenter.Player.CurrentHealthPoints +
-                                 this.PlayerPresenter.Player.CurrentCollectables;
+                int finalScore = this.PlayerPresenter.Player.CurrentCollectables;
 
-                // todo:
+                // Report game end
+                Action<GameResult,int> handler = this.MatchEnded;
+                if (handler != null) { handler(GameResult.Lose,finalScore); }
+
+                // Debug
                 Debug.Log("You Lost! Your score is " + finalScore);
 
             }
-            // Player ended the level
+            // Player ended the level so he/she won
             else
             {
                 // Calculate final score
                 int finalScore = this.PlayerPresenter.Player.CurrentCollectables;
 
-                // todo:
+                // Report game end
+                Action<GameResult, int> handler = this.MatchEnded;
+                if (handler != null) { handler(GameResult.Win, finalScore); }
+
+                // Debug
                 Debug.Log("You won! Your score is " + finalScore);
             }
         }
@@ -177,6 +186,13 @@ namespace SpecterOps
             Running,
             Paused, //todo: implement methods
             Ended
+        }
+
+        // Possible Game Results
+        public enum GameResult
+        {
+            Win,
+            Lose
         }
 
     }
