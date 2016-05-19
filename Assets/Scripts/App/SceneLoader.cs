@@ -17,5 +17,13 @@ namespace SpecterOps.App
         {
             SceneManager.LoadScene(sceneName);
         }
+
+        /// <summary>
+        /// Close the application
+        /// </summary>
+        public void ExitGame()
+        {
+            Application.Quit();
+        }
     }
 }

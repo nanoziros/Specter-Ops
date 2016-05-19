@@ -113,6 +113,10 @@ namespace SpecterOps
 
             // Mark control flags
             this.isInitialized = true;
+
+            // Hide cursor
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         /// <summary>
@@ -133,6 +137,11 @@ namespace SpecterOps
         /// </summary>
         public void DisplayMatchEndScreen(GamePresenter.GameResult result, int score)
         {
+            // Display cursor
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+
+            // Display end game screen based on the game results
             switch (result)
             {
                 case GamePresenter.GameResult.Win:
