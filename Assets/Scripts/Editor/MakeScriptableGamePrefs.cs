@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using SpecterOps;
+using SpecterOps.Player;
 using UnityEditor;
 
 public class MakeScriptableGamePrefs
@@ -31,6 +32,18 @@ public class MakeScriptableGamePrefs
         gamePrefs.RewardPerCollectable = 1;
         gamePrefs.MinCollectablePerTile = 1;
         gamePrefs.MaxCollectablePerTile = 3;
+
+        gamePrefs.inputConfig = new InputInstance.InputConfiguration
+        {
+            MoveForward = KeyCode.W,
+            MoveBack = KeyCode.S,
+            StrafeLeft = KeyCode.A,
+            StrafeRight = KeyCode.D,
+            AltMoveForward = KeyCode.UpArrow,
+            AltMoveBack = KeyCode.DownArrow,
+            AltStrafeLeft = KeyCode.LeftArrow,
+            AltStrafeRight = KeyCode.RightArrow
+        };
 
         // Save .asset file
         AssetDatabase.CreateAsset(gamePrefs, GameDataPresenter.GamePrefsPath);

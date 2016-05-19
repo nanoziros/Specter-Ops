@@ -8,8 +8,6 @@
     public class PlayerInputController : MonoBehaviour
     {
         // Player configuration
-        [Header("Player Controls")]
-        public InputInstance.InputConfiguration InputConfiguration;
         public InputInstance InputInstance { get; private set; }
 
         /// <summary>
@@ -27,7 +25,7 @@
         public void UpdateInput()
         {
             // Update input
-            this.InputInstance.Update(this.InputConfiguration);
+            this.InputInstance.Update(GamePresenter.Instance.DataPresenter.GamePrefs.inputConfig);
         }
     }
 

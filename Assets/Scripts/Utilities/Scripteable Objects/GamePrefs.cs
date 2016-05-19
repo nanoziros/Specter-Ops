@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using SpecterOps.Player;
 
 /// <summary>
 /// Scripteable object will all gameplay configurations
@@ -38,4 +39,7 @@ public class GamePrefs : ScriptableObject
     public int MinCollectablePerTile;
     [Range(0, 18)]
     public int MaxCollectablePerTile;
+
+    [Header("Player Input")]
+    public InputInstance.InputConfiguration inputConfig;
 }
