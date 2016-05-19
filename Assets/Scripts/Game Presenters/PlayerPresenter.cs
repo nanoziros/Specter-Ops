@@ -19,7 +19,7 @@
         public PlayerController Player { get; private set; }
 
         /// <summary>
-        /// Use this for initialization (this is the only class that can use this method in GameScene)
+        /// Use this for initialization
         /// </summary>
         public void Initialize(EnvironmentPresenter environmentPresenter)
         {

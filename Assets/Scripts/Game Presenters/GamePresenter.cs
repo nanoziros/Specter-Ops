@@ -52,7 +52,7 @@
         }
 
         /// <summary>
-        /// Use this for initialization (this is the only class that can use this method in GameScene)
+        /// Use this for initialization (this is the only class that can use this method in GameScene with the exception of VideoLooper)
         /// </summary>
         void Start()
         {

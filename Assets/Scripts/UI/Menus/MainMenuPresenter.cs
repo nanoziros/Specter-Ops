@@ -18,7 +18,7 @@
         private Stack<GameObject> screenOrder = new Stack<GameObject>();
 
         /// <summary>
-        /// Use this for initialization (this is the only class that can use this method in MainMenu)
+        /// Use this for initialization (this is the only class that can use this method in MainMenu with the exception of video loopers)
         /// </summary>
         void Start()
         {
