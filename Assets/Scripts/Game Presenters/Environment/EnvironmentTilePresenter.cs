@@ -83,7 +83,7 @@
             // Initialize enemies
             foreach (var enemy in this.activeEnemies)
                 enemy.Initialize(GamePresenter.Instance.GamePrefs.EnemyCollisionDamage, GamePresenter.Instance.GamePrefs.EnemyProjectileDamage,
-                    GamePresenter.Instance.GamePrefs.EnemyProjectileSpeed);
+                    GamePresenter.Instance.GamePrefs.EnemyProjectileSpeed, GamePresenter.Instance.GamePrefs.EnemyFireRate);
 
             // Spawn collectables
             this.SpawnGameplayElement(GamePresenter.Instance.GamePrefs.MinCollectablePerTile, GamePresenter.Instance.GamePrefs.MaxCollectablePerTile,

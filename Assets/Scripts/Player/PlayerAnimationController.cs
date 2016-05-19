@@ -3,6 +3,9 @@
     using UnityEngine;
     using System.Collections;
 
+    /// <summary>
+    /// Manages all player animations
+    /// </summary>
     [RequireComponent(typeof (SpriteRenderer))]
     public class PlayerAnimationController : MonoBehaviour
     {
