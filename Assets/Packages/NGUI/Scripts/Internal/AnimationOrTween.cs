@@ -3,8 +3,6 @@
 // Copyright © 2011-2015 Tasharen Entertainment
 //----------------------------------------------
 
-using UnityEngine;
-
 namespace AnimationOrTween
 {
 	public enum Trigger

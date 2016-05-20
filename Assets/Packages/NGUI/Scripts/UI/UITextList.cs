@@ -1,4 +1,4 @@
-//----------------------------------------------
+﻿//----------------------------------------------
 //            NGUI: Next-Gen UI kit
 // Copyright © 2011-2015 Tasharen Entertainment
 //----------------------------------------------
@@ -8,7 +8,6 @@
 #endif
 
 using UnityEngine;
-using System.Collections.Generic;
 using System.Text;
 
 /// <summary>

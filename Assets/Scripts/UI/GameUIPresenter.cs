@@ -1,10 +1,8 @@
-﻿using System;
-using DG.Tweening;
+﻿using DG.Tweening;
 
 namespace SpecterOps
 {
     using UnityEngine;
-    using System.Collections;
 
     /// <summary>
     /// Game UI Hub. Manages the Player Status View, Match Status View and th Victory/Defeat/Pause Views

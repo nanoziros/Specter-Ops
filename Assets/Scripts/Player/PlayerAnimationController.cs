@@ -1,9 +1,6 @@
-﻿using System;
-
-namespace SpecterOps.Player
+﻿namespace SpecterOps.Player
 {
     using UnityEngine;
-    using System.Collections;
 
     /// <summary>
     /// Manages all player animations

@@ -1,7 +1,6 @@
 ﻿namespace SpecterOps
 {
     using UnityEngine;
-    using System.Collections;
 
     /// <summary>
     /// Core enemy manager and hub
@@ -75,6 +74,16 @@
             this.animationController.OnFireProjectileEvent -= this.FireAtTarget;
         }
 
+        /// <summary>
+        /// Method called on player impact
+        /// </summary>
+        public override void PlayerImpact()
+        {
+            base.PlayerImpact();
+
+            // Play collision sfx
+            GamePresenter.Instance.AudioPresenter.PlayEnemyCollisionSfx();
+        }
 
         /// <summary>
         /// Call this method to update the enemy turret
@@ -118,6 +127,9 @@
             // Request fire projectile animation
             this.animationController.RequestFireProjectileAnimation();
 
+            // Play generic charging shoot sfx
+            GamePresenter.Instance.AudioPresenter.PlayChargeShootSfx();
+
             // Set control flag so we can't shoot again while waiting for this shoot
             this.chargingFire = true;
         }
@@ -136,6 +148,9 @@
             projectile.gameObject.SetActive(false);
             projectile.transform.position = this.ProjectileOrigin.position;
             projectile.gameObject.SetActive(true);
+
+            // Play generic shoot sfx
+            GamePresenter.Instance.AudioPresenter.PlayShootSfx();
 
             // Initialize projectile and launch it ( the projectile presenter will handle its movement)
             projectile.Initialize(this.ProjectilesDamage, this.ProjectileSpeed, this.ProjectileLife,

@@ -1,10 +1,9 @@
-//----------------------------------------------
+﻿//----------------------------------------------
 //            NGUI: Next-Gen UI kit
 // Copyright © 2011-2015 Tasharen Entertainment
 //----------------------------------------------
 
 using UnityEngine;
-using System.Collections;
 
 /// <summary>
 /// Allows dragging of the specified scroll view by mouse or touch.

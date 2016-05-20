@@ -1,7 +1,6 @@
 ﻿namespace SpecterOps
 {
     using UnityEngine;
-    using System.Collections;
 
     public class EnemyProjectileController : GameplayElementController
     {
@@ -58,6 +57,9 @@
         public override void PlayerImpact()
         {
             base.PlayerImpact();
+
+            // Play impact sfx
+            GamePresenter.Instance.AudioPresenter.PlayShootImpactSfx();
 
             // Deactivate gameobject
             this.gameObject.SetActive(false);

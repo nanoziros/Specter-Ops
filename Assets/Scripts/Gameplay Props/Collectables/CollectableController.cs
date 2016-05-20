@@ -1,8 +1,5 @@
 ﻿namespace SpecterOps
 {
-    using UnityEngine;
-    using System.Collections;
-
     /// <summary>
     /// Manages all collectable elements in the game
     /// </summary>
@@ -26,6 +23,9 @@
         public override void PlayerImpact()
         {
             base.PlayerImpact();
+
+            // Play collection sfx
+            GamePresenter.Instance.AudioPresenter.PlayCollectablePickupSfx();
 
             // Deactivate gameobject
             this.gameObject.SetActive(false);

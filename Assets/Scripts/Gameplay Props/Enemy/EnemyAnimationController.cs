@@ -3,7 +3,6 @@
 namespace SpecterOps
 {
     using UnityEngine;
-    using System.Collections;
 
     /// <summary>
     /// Manages all enemy animations

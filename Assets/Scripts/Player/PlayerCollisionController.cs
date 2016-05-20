@@ -2,7 +2,6 @@
 {
     using UnityEngine;
     using System;
-    using System.Collections;
 
     /// <summary>
     /// This class reports all collisions with gameplay elements

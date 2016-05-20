@@ -1,10 +1,8 @@
-﻿using System;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine.SceneManagement;
 
 namespace SpecterOps.App
 {
     using UnityEngine;
-    using System.Collections;
 
     /// <summary>
     /// This class manages scene loading

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using SpecterOps.Player;
 
 /// <summary>
@@ -13,7 +12,7 @@ public class GamePrefs : ScriptableObject
     public float MatchDuration;
 
     [Header("Environment")]
-    [Tooltip("To avoid the appareance of slower projectiles, this value must be lower than EnemyProjectileSpeed")]
+    [Tooltip("To avoid the appareance of slower projectiles, this value must be LOWER than EnemyProjectileSpeed")]
     [Range(0.1f,100.0f)]
     public float EnvironmentSpeed;
 
@@ -29,7 +28,7 @@ public class GamePrefs : ScriptableObject
     public int MaxEnemyPerTile;
     public int EnemyCollisionDamage;
     public int EnemyProjectileDamage;
-    [Tooltip("To avoid the appareance of slower projectiles, this value must be higher than EnvironmentSpeed")]
+    [Tooltip("To avoid the appareance of slower projectiles, this value must be HIGHER than EnvironmentSpeed")]
     [Range(0.1f, 100.0f)]
     public float EnemyProjectileSpeed;
     [Range(0.1f, 100.0f)]

@@ -1,10 +1,7 @@
-﻿using System;
-using DG.Tweening;
-
-namespace SpecterOps
+﻿namespace SpecterOps
 {
     using UnityEngine;
-    using System.Collections;
+    using DG.Tweening;
 
     /// <summary>
     /// Core audio manager for gamescene
@@ -18,6 +15,9 @@ namespace SpecterOps
         // SFX audio source (used for individual & small audio clips)
         public AudioSource SfxAudioSource;
 
+        // Run SFX audio source (since this will be looping , we are gonna use a separate audio source for it)
+        public AudioSource RunSfxAudioSource;
+
         // Music cross fade parameters
         [Range(1,20)]
         public float CrossFadeDuration = 1.0f;
@@ -26,6 +26,14 @@ namespace SpecterOps
         public AudioClip MainThemeClip;
         public AudioClip VictoryThemeClip;
         public AudioClip DefeatThemeClip;
+
+        // Sfx clips
+        public AudioClip RunSfx;
+        public AudioClip ChargingShootSfx;
+        public AudioClip ShootSfx;
+        public AudioClip ShootImpactSfx;
+        public AudioClip EnemyCollisionSfx;
+        public AudioClip CollectablePickupSfx;
 
         // Control parameters
         private bool isInitialized = false;
@@ -80,12 +88,31 @@ namespace SpecterOps
 
 
         #region SFX Clips
-
+        public void PlayCollectablePickupSfx()
+        {
+            this.PlaySfxClip(this.CollectablePickupSfx);
+        }
+        public void PlayChargeShootSfx()
+        {
+            this.PlaySfxClip(this.ChargingShootSfx);
+        }
+        public void PlayShootSfx()
+        {
+            this.PlaySfxClip(this.ShootSfx);
+        }
+        public void PlayShootImpactSfx()
+        {
+            this.PlaySfxClip(this.ShootImpactSfx);
+        }
+        public void PlayEnemyCollisionSfx()
+        {
+            this.PlaySfxClip(this.EnemyCollisionSfx);
+        }
         public void PlaySfxClip(AudioClip clip)
         {
-            this.SfxAudioSource.PlayOneShot(clip,1.0f);
+            if(clip != null)
+                this.SfxAudioSource.PlayOneShot(clip);
         }
-
         #endregion
 
         #region Music Themes
@@ -137,6 +164,6 @@ namespace SpecterOps
         }
 
         #endregion
-    }
+        }
 }
 

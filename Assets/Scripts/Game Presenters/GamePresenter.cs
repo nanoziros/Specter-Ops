@@ -139,7 +139,7 @@
             // Player died and therefore lost (ignore his score)
             if (this.PlayerPresenter.Player.CurrentHealthPoints <= 0)
             {
-                // Report game end
+                // Report defeat event
                 Action<GameResult,int> handler = this.MatchEnded;
                 if (handler != null) { handler(GameResult.Lose,this.PlayerPresenter.Player.PlayerScore); }
 
@@ -150,7 +150,7 @@
             // Player ended the level so he/she won
             else
             {
-                // Report game end
+                // Report victory event
                 Action<GameResult, int> handler = this.MatchEnded;
                 if (handler != null) { handler(GameResult.Win, this.PlayerPresenter.Player.PlayerScore); }
 

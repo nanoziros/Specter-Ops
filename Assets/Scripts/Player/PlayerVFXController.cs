@@ -1,7 +1,6 @@
 ﻿namespace SpecterOps.Player
 {
     using UnityEngine;
-    using System.Collections;
 
     public class PlayerVFXController : MonoBehaviour
     {

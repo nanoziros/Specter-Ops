@@ -1,7 +1,6 @@
 ﻿namespace SpecterOps.Utilities
 {
     using UnityEngine;
-    using System.Collections;
     using UnityEngine.UI;
 
     [RequireComponent(typeof(RawImage))]

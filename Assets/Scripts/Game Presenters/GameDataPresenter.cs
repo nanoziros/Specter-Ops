@@ -1,7 +1,6 @@
 ﻿namespace SpecterOps
 {
     using UnityEngine;
-    using System.Collections;
 
     /// <summary>
     /// Main scripteable object manager
