@@ -34,9 +34,6 @@
     /// </summary>
     public class InputInstance
     {
-        // Current key input configuration
-        private InputConfiguration inputConfig;
-
         // Current input
         public float MoveForward;
         public float StrafeRight;
@@ -47,9 +44,6 @@
         /// <param name="config">Input configuration for this frame update</param>
         public void Update(InputConfiguration config)
         {
-            // Update input configuration (in case it was changed)
-            this.inputConfig = config;
-
             // Update vertical movement input (1 = forward, -1 = backwards)
             this.MoveForward = Input.GetKey(config.MoveForward) || Input.GetKey(config.AltMoveForward) ? 1 : 0;
             this.MoveForward = Input.GetKey(config.MoveBack) || Input.GetKey(config.AltMoveBack) ? -1 : this.MoveForward;

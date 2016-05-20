@@ -15,6 +15,11 @@
         public EnemyProjectileController ProjectilePrefab;
         public int PreloadedProjectiles = 30;
 
+        // Core projectile impact pool
+        public GenericPoolSystem ProjectilesImpactPool { get; private set; }
+        public GameObject ProjectileImpactPrefab;
+        public int PreloadedProjectilesImpact = 30;
+
         // Control parameters
         private List<GameplayElementController> gameplayProjectilesPool = new List<GameplayElementController>();
 
@@ -24,7 +29,12 @@
         public void Initialize()
         {
             // Preload initial projectiles
-            this.ProjectilesPool = new GenericPoolSystem(this.ProjectilePrefab.gameObject,this.PreloadedProjectiles,this.transform);
+            this.ProjectilesPool = new GenericPoolSystem(this.ProjectilePrefab.gameObject, this.PreloadedProjectiles,
+                this.transform);
+
+            // Preload initial projectiles impact vfx
+            this.ProjectilesImpactPool = new GenericPoolSystem(this.ProjectileImpactPrefab, this.PreloadedProjectilesImpact,
+                this.transform);
         }
 
         /// <summary>

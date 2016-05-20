@@ -61,6 +61,10 @@
             // Play impact sfx
             GamePresenter.Instance.AudioPresenter.PlayShootImpactSfx();
 
+            // Play impact vfx
+            GameObject impactVfx= GamePresenter.Instance.ProjectilePresenter.ProjectilesImpactPool.GetObject();
+            impactVfx.transform.position = this.transform.position;
+
             // Deactivate gameobject
             this.gameObject.SetActive(false);
         }

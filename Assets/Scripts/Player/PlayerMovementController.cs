@@ -2,11 +2,15 @@
 {
     using UnityEngine;
 
+    /// <summary>
+    /// In charge of moving the player in accord to its input
+    /// </summary>
     public class PlayerMovementController : MonoBehaviour {
         // Boundaries variables
         public Boundaries MovementBoundaries;
         private Boundaries worldSpaceBoundaries;
         private Camera coreCamera;
+
         /// <summary>
         /// Use this for initialization
         /// </summary>
@@ -15,7 +19,7 @@
             // Set boundaries camera
             this.coreCamera = boundariesCamera;
 
-            // Get movement borders
+            // Calculate movement borders in which the player will be constrained during gameplay
             this.GetWorldSpaceBoundaries();
         }
 
