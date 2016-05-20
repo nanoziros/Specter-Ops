@@ -26,7 +26,8 @@
         public void FixedUpdateMovement(InputInstance inputInstance)
         {
             // Get movement input
-            Vector3 movementInput = new Vector3(inputInstance.StrafeRight, inputInstance.MoveForward, 0);
+            // Note: we need to normalize the input to avoid faster diagonal movement
+            Vector3 movementInput = new Vector3(inputInstance.StrafeRight, inputInstance.MoveForward, 0).normalized;
 
             // Execute movemet based on player input
             this.transform.position += movementInput* GamePresenter.Instance.GamePrefs.PlayerSpeed * Time.fixedDeltaTime;
