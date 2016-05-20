@@ -12,6 +12,12 @@
         private Vector3 directionVector;
         private float lifeTime;
 
+        // Projectile vfx
+        public ParticleSystem ParticleSystem;
+
+        // Control variables
+        private bool isInitialized = false;
+
         /// <summary>
         /// Use this for initialization
         /// </summary>
@@ -28,8 +34,41 @@
             // Firing vector debug
             // todo: remove
             Debug.DrawLine(this.transform.position, this.transform.position + this.directionVector, Color.red,2.0f);
+
+            // Subscribe to game pause events (in order to pause particle system)
+            GamePresenter.Instance.GamePaused += this.PauseProjectile;
+            GamePresenter.Instance.GameResumed += this.UnpauseProjectle;
+
+            // Set control variable
+            this.isInitialized = true;
         }
 
+        /// <summary>
+        /// Since we did some event subscribing, we need to safely unsubscribe on disable and on destroy
+        /// </summary>
+        private void OnDisable()
+        {
+            // Check if we initialized this class
+            if (!this.isInitialized)
+                return;
+
+            // Remove initialization flag
+            this.isInitialized = false;
+
+            // Unsubscribe gameflow events
+            GamePresenter.Instance.GamePaused -= this.PauseProjectile;
+            GamePresenter.Instance.GameResumed -= this.UnpauseProjectle;
+        }
+        private void OnDestroy()
+        {
+            // Check if we initialized this class
+            if (!this.isInitialized)
+                return;
+
+            // Unsubscribe gameflow events
+            GamePresenter.Instance.GamePaused -= this.PauseProjectile;
+            GamePresenter.Instance.GameResumed -= this.UnpauseProjectle;
+        }
 
         /// <summary>
         /// Update projectile lifetime and movement
@@ -66,6 +105,22 @@
 
             // Deactivate gameobject
             this.gameObject.SetActive(false);
+        }
+
+
+        /// <summary>
+        /// Pause projectile's vfx
+        /// </summary>
+        public void PauseProjectile()
+        {
+            this.ParticleSystem.Pause();
+        }
+        /// <summary>
+        /// Resume projectile's vfx
+        /// </summary>
+        public void UnpauseProjectle()
+        {
+            this.ParticleSystem.Play();
         }
     }
 }

@@ -36,6 +36,7 @@ public class MakeScriptableGamePrefs
 
         gamePrefs.inputConfig = new InputInstance.InputConfiguration
         {
+            PauseRequest = KeyCode.Escape,
             MoveForward = KeyCode.W,
             MoveBack = KeyCode.S,
             StrafeLeft = KeyCode.A,

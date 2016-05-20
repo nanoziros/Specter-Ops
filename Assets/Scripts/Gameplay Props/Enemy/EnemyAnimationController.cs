@@ -10,14 +10,52 @@ namespace SpecterOps
     public class EnemyAnimationController : MonoBehaviour
     {
         // Animation controllers
+        public Animator EnemyBaseAnimator;
         public Animator EnemyHeadAnimator;
         public event Action OnFireProjectileEvent;
+
+        // Control parameters
+        private bool isInitialized = false;
 
         /// <summary>
         /// Use this class for initialziation
         /// </summary>
         public void Initialize()
-        {}
+        {
+            // Subscribe to proper game events
+            GamePresenter.Instance.GamePaused += this.PauseAnimation;
+            GamePresenter.Instance.GameResumed += this.ResumeAnimation;
+
+            // Set initialized flag
+            this.isInitialized = true;
+        }
+
+        /// <summary>
+        /// Since we did some event subscribing, we need to safely unsubscribe on disable and on destroy
+        /// </summary>
+        private void OnDisable()
+        {
+            // Check if we initialized this class
+            if (!this.isInitialized)
+                return;
+
+            // Remove initialization flag
+            this.isInitialized = false;
+
+            // Unsubscribe gameflow events
+            GamePresenter.Instance.GamePaused -= this.PauseAnimation;
+            GamePresenter.Instance.GameResumed -= this.ResumeAnimation;
+        }
+        private void OnDestroy()
+        {
+            // Check if we initialized this class
+            if (!this.isInitialized)
+                return;
+
+            // Unsubscribe gameflow events
+            GamePresenter.Instance.GamePaused -= this.PauseAnimation;
+            GamePresenter.Instance.GameResumed -= this.ResumeAnimation;
+        }
 
         /// <summary>
         /// Request enemy fire projectile animation
@@ -38,6 +76,23 @@ namespace SpecterOps
             // Request any event related to the enemy being on the fire projectile frame
             Action handler = this.OnFireProjectileEvent;
             if (handler != null) { handler(); }
+        }
+
+        /// <summary>
+        /// Pause animator
+        /// </summary>
+        public void PauseAnimation()
+        {
+            this.EnemyBaseAnimator.enabled = false;
+            this.EnemyHeadAnimator.enabled = false;
+        }
+        /// <summary>
+        /// Resume animator
+        /// </summary>
+        public void ResumeAnimation()
+        {
+            this.EnemyBaseAnimator.enabled = true;
+            this.EnemyHeadAnimator.enabled = true;
         }
     }
 }

@@ -78,16 +78,28 @@
         }
 
         /// <summary>
+        /// UpdatePlayerInput is called once per frame by gamepresenter
+        /// NOTE: this wasn't included in UpdatePlayer because when the game is paused this method can be still be called while UpdatePlayer can not
+        /// </summary>
+        public void UpdatePlayerInput()
+        {
+            // Update player input given the current input key configuration
+            this.inputController.UpdateInput();
+
+            // If the player requested game pause, report it to game presenter
+            if(this.inputController.InputInstance.PauseGame)
+                GamePresenter.Instance.ManagePauseGame();
+        }
+
+        /// <summary>
         /// Update is called once per frame by gamepresenter
         /// </summary>
         public void UpdatePlayer()
         {
-            // Update player input given the current input key configuration
-            this.inputController.UpdateInput(); 
-
             // Update invulnerability state
             this.UpdatePostImpactInvulnerability();
         }
+
         /// <summary>
         /// FixedUpdate is called once per physics frame 
         /// </summary>

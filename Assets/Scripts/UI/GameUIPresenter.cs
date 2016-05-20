@@ -13,6 +13,7 @@ namespace SpecterOps
         private bool isInitialized = false;
 
         // Screen views
+        public GameObject PauseScreen;
         public GameObject DefeatScreen;
         public GameObject VictoryScreen;
 
@@ -108,7 +109,8 @@ namespace SpecterOps
 
             // Subscribe to end game events
             GamePresenter.Instance.MatchEnded += this.DisplayMatchEndScreen;
-
+            GamePresenter.Instance.GamePaused += this.DisplayPauseScreen;
+            GamePresenter.Instance.GameResumed += this.HidePauseScreen;
             // Mark control flags
             this.isInitialized = true;
 
@@ -127,9 +129,37 @@ namespace SpecterOps
                 return;
 
             // Unsubscribe collision events
-            GamePresenter.Instance.MatchEnded -= this.DisplayMatchEndScreen;
+            GamePresenter.Instance.MatchEnded  -= this.DisplayMatchEndScreen;
+            GamePresenter.Instance.GamePaused  -= this.DisplayPauseScreen;
+            GamePresenter.Instance.GameResumed -= this.HidePauseScreen;
         }
 
+        /// <summary>
+        /// Hide the pause screen and disable mouse control
+        /// </summary>
+        public void HidePauseScreen()
+        {
+            // Hide cursor
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            // Deactivate view
+            this.PauseScreen.SetActive(false);
+        }
+        /// <summary>
+        /// Display the pause screen and enable mouse control
+        /// </summary>
+        public void DisplayPauseScreen()
+        {
+            // Display cursor
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+
+            // Activate view
+            this.PauseScreen.SetActive(true);
+            // Pop up animation
+            this.PauseScreen.transform.localScale = Vector3.one * 0.5f;
+            this.PauseScreen.transform.DOScale(1.0f, this.PopUpAnimationLength).SetEase(this.PopUpAnimationEase);
+        }
         /// <summary>
         /// Display the end game screen matching the game results
         /// </summary>

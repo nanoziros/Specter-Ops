@@ -26,6 +26,8 @@
 
             // Subscribe to proper game events
             GamePresenter.Instance.MatchEnded += this.ExecuteEndGameAnimation;
+            GamePresenter.Instance.GamePaused += this.PauseAnimation;
+            GamePresenter.Instance.GameResumed += this.ResumeAnimation;
 
             // Set initialization flag
             this.isInitialized = true;
@@ -41,6 +43,8 @@
 
             // Unsubscribe match events
             GamePresenter.Instance.MatchEnded -= this.ExecuteEndGameAnimation;
+            GamePresenter.Instance.GamePaused -= this.PauseAnimation;
+            GamePresenter.Instance.GameResumed -= this.ResumeAnimation;
         }
 
 
@@ -58,6 +62,21 @@
                     this.playerAnimator.SetTrigger("PlayerLoses");
                     break;
             }
+        }
+
+        /// <summary>
+        /// Pause animator
+        /// </summary>
+        public void PauseAnimation()
+        {
+            this.playerAnimator.enabled = false;
+        }
+        /// <summary>
+        /// Resume animator
+        /// </summary>
+        public void ResumeAnimation()
+        {
+            this.playerAnimator.enabled = true;
         }
     }
 }

@@ -43,6 +43,9 @@
             // Get class components
             this.animationController = this.GetComponentInChildren<EnemyAnimationController>();
 
+            // Initialize components
+            this.animationController.Initialize();
+
             // Set initial parameters
             this.DamageOnCollision = damageOnCollision;
             this.ProjectileSpeed = projectilesSpeed;
@@ -62,8 +65,20 @@
         }
 
         /// <summary>
-        /// Since we did some event subscribing, we need to safely unsubscribe on destroy (to avoid nullreference errors)
+        /// Since we did some event subscribing, we need to safely unsubscribe on disable and on destroy (to avoid nullreference errors)
         /// </summary>
+        private void OnDisable()
+        {
+            // Check if we initialized this class
+            if (!this.isInitialized)
+                return;
+
+            // Remove initialization flag
+            this.isInitialized = false;
+
+            // Unsubscribe gameflow events
+            this.animationController.OnFireProjectileEvent -= this.FireAtTarget;
+        }
         public void OnDestroy()
         {
             // Check if we initialized this class

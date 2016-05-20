@@ -35,6 +35,7 @@
     public class InputInstance
     {
         // Current input
+        public bool PauseGame;
         public float MoveForward;
         public float StrafeRight;
 
@@ -44,6 +45,9 @@
         /// <param name="config">Input configuration for this frame update</param>
         public void Update(InputConfiguration config)
         {
+            // Update game flow input
+            this.PauseGame = Input.GetKeyDown(config.PauseRequest);
+
             // Update vertical movement input (1 = forward, -1 = backwards)
             this.MoveForward = Input.GetKey(config.MoveForward) || Input.GetKey(config.AltMoveForward) ? 1 : 0;
             this.MoveForward = Input.GetKey(config.MoveBack) || Input.GetKey(config.AltMoveBack) ? -1 : this.MoveForward;
@@ -59,6 +63,9 @@
         [System.Serializable]
         public class InputConfiguration
         {
+            [Header("Game Flow")]
+            public KeyCode PauseRequest = KeyCode.Escape;
+
             [Header("Directional Movement")]
             public KeyCode MoveForward = KeyCode.W;
             public KeyCode MoveBack = KeyCode.S;

@@ -18,7 +18,7 @@
         public ProjectilePresenter ProjectilePresenter { get; private set; }
         public VFXPresenter VfxPresenter { get; private set; }
         public GameDataPresenter DataPresenter { get; private set; }
-        public GameUIPresenter UIPresenter { get; private set; }
+        public GameUIPresenter UiPresenter { get; private set; }
         public GameSceneAudioPresenter AudioPresenter { get; private set; }
 
         // Match preferences and variable gameplay configuration
@@ -40,6 +40,8 @@
 
         // Game Events
         public event Action<GameResult,int> MatchEnded;
+        public event Action GamePaused;
+        public event Action GameResumed;
 
         // Singleton
         private static GamePresenter _instance = null;
@@ -65,19 +67,19 @@
             this.CameraRigPresenter = this.GetComponentInChildren<CameraRigPresenter>();
             this.ProjectilePresenter = this.GetComponentInChildren<ProjectilePresenter>();
             this.VfxPresenter = this.GetComponentInChildren<VFXPresenter>();
-            this.UIPresenter = this.GetComponentInChildren<GameUIPresenter>();
+            this.UiPresenter = this.GetComponentInChildren<GameUIPresenter>();
             this.AudioPresenter = this.GetComponentInChildren<GameSceneAudioPresenter>();
 
             // Load gameplay information from scripteable object
             if (!this.DataPresenter.Load())
                 return;
-
+            
             // Initialize core presenters
             this.VfxPresenter.Initialize();
             this.ProjectilePresenter.Initialize();
             this.EnvironmentPresenter.Initialize();
             this.PlayerPresenter.Initialize(this.EnvironmentPresenter);
-            this.UIPresenter.Initialize();
+            this.UiPresenter.Initialize();
             this.AudioPresenter.Initialize();
 
             // Start game
@@ -98,6 +100,9 @@
             // Update camera
             if (GamePresenter.Instance.CurrentMatchState != GamePresenter.GameState.NonStarted)
                 this.CameraRigPresenter.UpdateMainCamera();
+
+            // Update player input
+            this.PlayerPresenter.Player.UpdatePlayerInput();
 
             // Don't execute gameplay updates if the game isn't running
             if (GamePresenter.Instance.CurrentMatchState != GamePresenter.GameState.Running)
@@ -163,6 +168,33 @@
         }
 
         /// <summary>
+        /// Use this method to request game pause or unpause (if the method is called when paused it will unpause the game and viceversa)
+        /// </summary>
+        public void ManagePauseGame()
+        {
+            // Pause game
+            if (this.CurrentMatchState == GameState.Running)
+            {
+                // Raise pause event
+                Action handler = this.GamePaused;
+                if (handler != null) { handler(); }
+
+                // Set status state
+                this.CurrentMatchState = GameState.Paused;
+            }
+            // Unpause game
+            else if (this.CurrentMatchState == GameState.Paused)
+            {   
+                // Raise unpause event
+                Action handler = this.GameResumed;
+                if (handler != null) { handler(); }
+
+                // Set status state
+                this.CurrentMatchState = GameState.Running;
+            }
+        }
+
+        /// <summary>
         /// Match timer updater
         /// </summary>
         IEnumerator UpdateMatchTimer()
@@ -185,7 +217,7 @@
         {
             NonStarted,
             Running,
-            Paused, //todo: implement methods
+            Paused, 
             Ended
         }
 
