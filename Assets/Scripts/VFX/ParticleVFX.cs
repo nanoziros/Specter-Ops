@@ -23,6 +23,15 @@
         }
 
         /// <summary>
+        /// If deactivated prematurely, stop particle system and coroutine
+        /// </summary>
+        private void OnDisable()
+        {
+            this.ParticleSystem.Stop();
+            StopCoroutine("AutoDisabler");
+        }
+
+        /// <summary>
         /// Disable the particle system when it stops playing
         /// </summary>
         /// <returns></returns>

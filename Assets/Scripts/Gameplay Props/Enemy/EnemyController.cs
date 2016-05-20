@@ -23,6 +23,9 @@
         public float ProjectileSpeed { get; private set; }
         public Transform ProjectileOrigin;
 
+        // Local projectile emission vfx
+        public GameObject FireVfx;
+
         // Attack control variables
         private float coldownDuration;
         private bool inColdown = false;
@@ -166,6 +169,10 @@
 
             // Play generic shoot sfx
             GamePresenter.Instance.AudioPresenter.PlayShootSfx();
+
+            // Play fire vfx
+            if(this.FireVfx != null)
+                this.FireVfx.SetActive(true);
 
             // Initialize projectile and launch it ( the projectile presenter will handle its movement)
             projectile.Initialize(this.ProjectilesDamage, this.ProjectileSpeed, this.ProjectileLife,
