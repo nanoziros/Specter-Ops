@@ -19,13 +19,17 @@
         private void OnEnable()
         {
             this.ParticleSystem.Play();
-
             StartCoroutine("AutoDisabler");
         }
 
+        /// <summary>
+        /// Disable the particle system when it stops playing
+        /// </summary>
+        /// <returns></returns>
         IEnumerator AutoDisabler()
         {
-            yield return new WaitForSeconds(this.ParticleSystem.duration);
+            while (this.ParticleSystem.isPlaying)
+                yield return null;
 
             this.gameObject.SetActive(false);
         }

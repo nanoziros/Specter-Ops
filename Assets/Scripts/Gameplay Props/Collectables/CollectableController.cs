@@ -1,4 +1,5 @@
-﻿namespace SpecterOps
+﻿using UnityEngine;
+namespace SpecterOps
 {
     /// <summary>
     /// Manages all collectable elements in the game
@@ -26,6 +27,10 @@
 
             // Play collection sfx
             GamePresenter.Instance.AudioPresenter.PlayCollectablePickupSfx();
+
+            // Play impact vfx
+            GameObject impactVfx = GamePresenter.Instance.VfxPresenter.RewardImpactPool.GetObject();
+            impactVfx.transform.position = this.transform.position;
 
             // Deactivate gameobject
             this.gameObject.SetActive(false);

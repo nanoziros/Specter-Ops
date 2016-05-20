@@ -15,7 +15,6 @@
         /// <summary>
         /// Use this for initialization
         /// </summary>
-        /// <param name="damage"></param>
         public void Initialize(int damage,float speed,float life, Vector3 destination)
         {
             // Set initial parameters
@@ -62,7 +61,7 @@
             GamePresenter.Instance.AudioPresenter.PlayShootImpactSfx();
 
             // Play impact vfx
-            GameObject impactVfx= GamePresenter.Instance.ProjectilePresenter.ProjectilesImpactPool.GetObject();
+            GameObject impactVfx= GamePresenter.Instance.VfxPresenter.ProjectilesImpactPool.GetObject();
             impactVfx.transform.position = this.transform.position;
 
             // Deactivate gameobject

@@ -16,6 +16,7 @@
         public EnvironmentPresenter EnvironmentPresenter { get; private set; }
         public CameraRigPresenter CameraRigPresenter { get; private set; }
         public ProjectilePresenter ProjectilePresenter { get; private set; }
+        public VFXPresenter VfxPresenter { get; private set; }
         public GameDataPresenter DataPresenter { get; private set; }
         public GameUIPresenter UIPresenter { get; private set; }
         public GameSceneAudioPresenter AudioPresenter { get; private set; }
@@ -63,6 +64,7 @@
             this.EnvironmentPresenter = this.GetComponentInChildren<EnvironmentPresenter>();
             this.CameraRigPresenter = this.GetComponentInChildren<CameraRigPresenter>();
             this.ProjectilePresenter = this.GetComponentInChildren<ProjectilePresenter>();
+            this.VfxPresenter = this.GetComponentInChildren<VFXPresenter>();
             this.UIPresenter = this.GetComponentInChildren<GameUIPresenter>();
             this.AudioPresenter = this.GetComponentInChildren<GameSceneAudioPresenter>();
 
@@ -71,6 +73,7 @@
                 return;
 
             // Initialize core presenters
+            this.VfxPresenter.Initialize();
             this.ProjectilePresenter.Initialize();
             this.EnvironmentPresenter.Initialize();
             this.PlayerPresenter.Initialize(this.EnvironmentPresenter);

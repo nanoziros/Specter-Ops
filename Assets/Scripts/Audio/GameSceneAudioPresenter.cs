@@ -33,7 +33,7 @@
         public AudioClip ShootSfx;
         public AudioClip ShootImpactSfx;
         public AudioClip EnemyCollisionSfx;
-        public AudioClip CollectablePickupSfx;
+        public AudioClip[] CollectablePickupSfxs;
 
         // Control parameters
         private bool isInitialized = false;
@@ -90,7 +90,9 @@
         #region SFX Clips
         public void PlayCollectablePickupSfx()
         {
-            this.PlaySfxClip(this.CollectablePickupSfx);
+            this.PlaySfxClip(this.CollectablePickupSfxs.Length > 0
+                ? this.CollectablePickupSfxs[Random.Range(0, this.CollectablePickupSfxs.Length)]
+                : null);
         }
         public void PlayChargeShootSfx()
         {
