@@ -7,14 +7,12 @@
     public class VideoLooper : MonoBehaviour
     {
         // Raw image with the video file
-        private RawImage image;
-
+        public RawImage Image;
         // Use this for initialization
-        void Start()
+        void OnEnable()
         {
-            this.image = this.GetComponent<RawImage>();
-
-            var video = (MovieTexture) this.image.mainTexture;
+            // Run video
+            var video = (MovieTexture) this.Image.mainTexture;
             video.loop = true;
             video.Play();
         }
