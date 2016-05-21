@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Amplify Bloom provided class to marge main camera with glow camera
+/// </summary>
 public class UIComposition : MonoBehaviour
 {
 	public Camera MainCamera;
