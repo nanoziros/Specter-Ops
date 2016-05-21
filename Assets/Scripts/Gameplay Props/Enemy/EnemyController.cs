@@ -108,6 +108,12 @@
         /// </summary>
         public void UpdateEnemy()
         {
+            // Update head direction based on player position
+            Vector3 relativePlayerPosition =
+                this.transform.InverseTransformPoint(GamePresenter.Instance.PlayerPresenter.Player.transform.position);
+            this.animationController.transform.localScale = new Vector3(relativePlayerPosition.x > 0 ? -1 : 1,
+                this.animationController.transform.localScale.y, this.animationController.transform.localScale.z);
+
             // Only update the turret if it's visible by any camera
             // if the turrets are above the player position (otherwise the game is too hard!!)
             //  and if we aren't already charging a shot
