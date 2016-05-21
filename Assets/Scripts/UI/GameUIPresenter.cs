@@ -41,7 +41,7 @@ namespace SpecterOps
                     ? GamePresenter.Instance.PlayerPresenter.Player.CurrentHealthPoints
                     : 0;
                 // Calculate and format normalized health
-                return (1.0f - currentHealth/maxHealth).ToString();
+                return (currentHealth/maxHealth).ToString();
             }
         }
         public Color CurrentMatchDurationColor
