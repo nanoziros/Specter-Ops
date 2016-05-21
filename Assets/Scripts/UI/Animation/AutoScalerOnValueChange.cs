@@ -1,12 +1,7 @@
-﻿using DG.Tweening;
-
-namespace SpecterOps.Utilities
+﻿namespace SpecterOps.Utilities
 {
     using UnityEngine;
-    using System.Collections;
-    using UnityEngine.UI;
-
-    using  DG;
+    using DG.Tweening;
 
     /// <summary>
     /// This class executes a pop up animation on a text element when its value changes (thanks to UGUI's input field component, its OnValueChange can
