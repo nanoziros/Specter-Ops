@@ -8,6 +8,9 @@
     /// </summary>
     public class MainMenuPresenter : MonoBehaviour
     {
+        // Core main scene comonents
+        private MainSceneAudioPresenter audioPresenter;
+
         // Game screens
         public GameObject MainMenuScreen;
         public GameObject InstructionsScreen;
@@ -21,6 +24,12 @@
         /// </summary>
         void Start()
         {
+            // Get core components
+            this.audioPresenter = this.GetComponentInChildren<MainSceneAudioPresenter>();
+
+            // Initialize core components
+            this.audioPresenter.Initialize();
+
             // Go to the main menu screen
             this.GoToMainMenu();
         }

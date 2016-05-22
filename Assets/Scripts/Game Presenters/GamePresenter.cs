@@ -147,23 +147,23 @@
             // Player died and therefore lost (ignore his score)
             if (this.PlayerPresenter.Player.CurrentHealthPoints <= 0)
             {
-                // Report defeat event
+                // Raise defeat event
                 Action<GameResult,int> handler = this.MatchEnded;
                 if (handler != null) { handler(GameResult.Lose,this.PlayerPresenter.Player.PlayerScore); }
 
                 // Debug
-                Debug.Log("You Lost! Your score is " + this.PlayerPresenter.Player.PlayerScore);
+                //Debug.Log("You Lost! Your score is " + this.PlayerPresenter.Player.PlayerScore);
 
             }
             // Player ended the level so he/she won
             else
             {
-                // Report victory event
+                // Raise victory event
                 Action<GameResult, int> handler = this.MatchEnded;
                 if (handler != null) { handler(GameResult.Win, this.PlayerPresenter.Player.PlayerScore); }
 
                 // Debug
-                Debug.Log("You won! Your score is " + this.PlayerPresenter.Player.PlayerScore);
+                //Debug.Log("You won! Your score is " + this.PlayerPresenter.Player.PlayerScore);
             }
         }
 

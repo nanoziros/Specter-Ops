@@ -6,21 +6,10 @@
     /// <summary>
     /// Core audio manager for gamescene
     /// </summary>
-    public class GameSceneAudioPresenter : MonoBehaviour
+    public class GameSceneAudioPresenter : AudioPresenter
     {
-        // Audio sources (we use two to enable cross fading between two songs)
-        public AudioSource MainAudioSource;
-        public AudioSource SecondaryAudioSource;
-
-        // SFX audio source (used for individual & small audio clips)
-        public AudioSource SfxAudioSource;
-
         // Run SFX audio source (since this will be looping , we are gonna use a separate audio source for it)
         public AudioSource RunSfxAudioSource;
-
-        // Music cross fade parameters
-        [Range(1,20)]
-        public float CrossFadeDuration = 1.0f;
         
         // Music themes
         public AudioClip MainThemeClip;
@@ -41,12 +30,10 @@
         /// <summary>
         /// Use this for initialization
         /// </summary>
-        public void Initialize()
+        public override void Initialize()
         {
-            // Set loop mode for both music sources
-            this.MainAudioSource.loop = true;
-            this.SecondaryAudioSource.loop = true;
-            
+            base.Initialize();
+                        
             // Start the main theme
             this.PlayGameplayMusic();
 
@@ -138,31 +125,6 @@
         public void PlayDefeatMusic()
         {
             this.PingPongCrossFade(this.DefeatThemeClip);
-        }
-
-        /// <summary>
-        /// Cross Fade target audio clip in a ping pong fashion between our two audio sources
-        /// </summary>
-        private void PingPongCrossFade(AudioClip clip)
-        {
-            if (!this.MainAudioSource.isPlaying)
-                this.CrossFadeAudioSources(this.MainAudioSource, this.SecondaryAudioSource, clip);
-            else
-                this.CrossFadeAudioSources(this.SecondaryAudioSource, this.MainAudioSource, clip);
-        }
-
-
-        /// <summary>
-        /// Cross fade any two audio sources with the newClip
-        /// </summary>
-        private void CrossFadeAudioSources(AudioSource sourceA, AudioSource sourceB, AudioClip newClip)
-        {
-            sourceA.volume = 0;
-            sourceA.clip = newClip;
-            sourceA.Play();
-
-            sourceA.DOFade(1, this.CrossFadeDuration);
-            sourceB.DOFade(0, this.CrossFadeDuration).OnComplete(sourceB.Stop);
         }
 
         #endregion
