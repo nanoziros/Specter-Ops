@@ -28,7 +28,7 @@ public class MakeScriptableGamePrefs
         gamePrefs.EnemyCollisionDamage = 1;
         gamePrefs.EnemyProjectileDamage = 1;
         gamePrefs.EnemyProjectileSpeed = 5;
-        gamePrefs.EnemyFireRate = 1;
+        gamePrefs.EnemyFireRate = 0.8f;
 
         gamePrefs.RewardPerCollectable = 1;
         gamePrefs.MinCollectablePerTile = 1;
