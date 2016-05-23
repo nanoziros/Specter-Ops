@@ -1,6 +1,7 @@
 ﻿namespace SpecterOps
 {
     using UnityEngine;
+    using SpecterOps.Player;
 
     /// <summary>
     /// Main scripteable object manager
@@ -13,7 +14,34 @@
 
         // Game data
         public GamePrefs GamePrefs { get; private set; }
-
+        public static GamePrefs DefaultGamePref = new GamePrefs
+        {
+            MatchDuration = 30.0f,
+            EnvironmentSpeed = 3,
+            PlayerSpeed = 4.0f,
+            PlayerHealth = 3,
+            MinEnemyPerTile = 1,
+            MaxEnemyPerTile = 2,
+            EnemyCollisionDamage = 1,
+            EnemyProjectileDamage = 1,
+            EnemyProjectileSpeed = 5,
+            EnemyFireRate = 0.8f,
+            RewardPerCollectable = 1,
+            MinCollectablePerTile = 1,
+            MaxCollectablePerTile = 3,
+            inputConfig = new InputInstance.InputConfiguration
+            {
+                PauseRequest = KeyCode.Escape,
+                MoveForward = KeyCode.W,
+                MoveBack = KeyCode.S,
+                StrafeLeft = KeyCode.A,
+                StrafeRight = KeyCode.D,
+                AltMoveForward = KeyCode.UpArrow,
+                AltMoveBack = KeyCode.DownArrow,
+                AltStrafeLeft = KeyCode.LeftArrow,
+                AltStrafeRight = KeyCode.RightArrow
+            }
+        };
         /// <summary>
         /// Load the game preferences object
         /// </summary>

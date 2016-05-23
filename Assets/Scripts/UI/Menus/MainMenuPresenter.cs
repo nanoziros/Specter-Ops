@@ -13,6 +13,7 @@
 
         // Game screens
         public GameObject MainMenuScreen;
+        public GameObject SettingsScreen;
         public GameObject InstructionsScreen;
         public GameObject CreditsScreen;
 
@@ -38,6 +39,10 @@
         public void GoToMainMenu()
         {
             this.GoTo(this.MainMenuScreen);
+        }
+        public void GoToSettings()
+        {
+            this.GoTo(this.SettingsScreen);
         }
         public void GoToInstructions()
         {
