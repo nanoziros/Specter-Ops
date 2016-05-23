@@ -2,7 +2,6 @@
 {
     using UnityEngine;
     using Utilities;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Manages particular vfx instantiation
