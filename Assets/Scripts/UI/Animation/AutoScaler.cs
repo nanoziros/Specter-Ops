@@ -7,7 +7,7 @@
     public class AutoScaler : MonoBehaviour
     {
 
-        // AnimationParameters
+        // Animation Parameters
         public float OriginScale = 1.0f;
         public float TargetScale = 0.75f;
         public float AnimationInterval = 0.2f;
@@ -28,7 +28,7 @@
             this.scalingSequence = DOTween.Sequence().SetLoops(-1);
             this.scalingSequence.Append(this.transform.DOScale(this.TargetScale,
                 this.AnimationInterval / 2.0f));
-            this.scalingSequence.Append(this.transform.DOScale(1,
+            this.scalingSequence.Append(this.transform.DOScale(this.OriginScale,
                 this.AnimationInterval / 2.0f));
             this.scalingSequence.AppendInterval(this.DelayBetweenScaling);
         }
