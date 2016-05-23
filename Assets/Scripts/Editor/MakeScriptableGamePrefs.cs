@@ -12,12 +12,9 @@ public class MakeScriptableGamePrefs
     [MenuItem("Tools/Game Preferences/Reset Game Preferences")]
     public static void ResetScriptableGamePrefs()
     {
-        // Create .asset file
-        GamePrefs gamePrefs = ScriptableObject.CreateInstance<GamePrefs>();
 
-        // Set its default values
-        gamePrefs = GameDataPresenter.DefaultGamePref;
-
+        // Create .asset file and Set its default values
+        var gamePrefs = GameDataPresenter.DefaultGamePref;
         // Create parent folder
         if(!Directory.Exists(GameDataPresenter.GamePrefsFolder))
             Directory.CreateDirectory(GameDataPresenter.GamePrefsFolder);

@@ -1,8 +1,11 @@
-﻿namespace SpecterOps.Utilities
+﻿using System;
+
+namespace SpecterOps.Utilities
 {
     using UnityEngine;
     using System.Collections;
-
+    using System.IO;
+    using UnityEditor;
     /// <summary>
     /// This UI can change the gameplay preferences
     /// </summary>
@@ -18,9 +21,20 @@
 
         // UI Components
 
+        // UI Variables
+        /*
+        public int PlayerHealth
+        {
+            get
+            {
+                if(this.TempGamePrefs!= null)
+                return this.TempGamePrefs.PlayerHealth;
+            }
+            set { this.TempGamePrefs}
+        }
+        */
         // Control variables
         private bool loadSuccesful;
-
 
         /// <summary>
         /// Load current gameplay configuration
@@ -43,6 +57,23 @@
             if (!this.loadSuccesful)
                 return;
 
+            // Save new parameters
+            // Create .asset file
+            GamePrefs gamePrefs = ScriptableObject.CreateInstance<GamePrefs>();
+
+            // Set its new values
+            gamePrefs = this.TempGamePrefs;
+            // Create parent folder
+            if (!Directory.Exists(GameDataPresenter.GamePrefsFolder))
+                Directory.CreateDirectory(GameDataPresenter.GamePrefsFolder);
+
+            // Save .asset file
+            GamePrefs asset =
+                AssetDatabase.LoadAssetAtPath<GamePrefs>(GameDataPresenter.GamePrefsFolder + GameDataPresenter.GamePrefsName);
+            if (asset == null)
+                return;
+            asset = gamePrefs;
+            AssetDatabase.Refresh(ImportAssetOptions.Default);
         }
 
         /// <summary>
