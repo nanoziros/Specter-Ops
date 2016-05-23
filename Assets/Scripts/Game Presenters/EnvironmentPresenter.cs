@@ -85,7 +85,7 @@
         /// </summary>
         private void GenerateEnvironmentTiles()
         {
-            // Instantite initial environment tile 
+            // Instanstiate initial environment tile 
             GameObject nObj = Instantiate(EnvironmentTilePrefab) as GameObject;
 
             // Set  gameobject name
@@ -98,10 +98,11 @@
             this.tilePool = new GenericPoolSystem(this.EnvironmentTilePrefab.gameObject, this.PooledTiles, this.transform);
 
             // Add instanced environment tiles to current environment stack
-            this.currentEnvironmentTiles = new List<EnvironmentTilePresenter>();
-
-            // Add first initial tile but DON'T initialize it (we don't want to spawn anything on it)
-            this.currentEnvironmentTiles.Add(nObj.GetComponent<EnvironmentTilePresenter>()); 
+            this.currentEnvironmentTiles = new List<EnvironmentTilePresenter>
+            {
+                // Add first initial tile but DON'T initialize it (we don't want to spawn anything on it so the player have some breath room at the start)
+                nObj.GetComponent<EnvironmentTilePresenter>()
+            };
 
             // Add remaining tiles and initialize them
             for (int i = 0; i < this.PooledTiles; i++)

@@ -115,20 +115,21 @@
         /// </summary>
         private void UpdatePostImpactInvulnerability()
         {
-            if (this.isInvulnerable)
-            {
-                // Update timer
-                this.invulnerabilityTimer += Time.deltaTime;
-                // Check if we must disable invulnerabiliy now
-                if (this.invulnerabilityTimer > this.PostDamageInvulnerability)
-                {
-                    // Reset timer and set flag
-                    this.invulnerabilityTimer = 0;
-                    this.isInvulnerable = false;
+            // Only execute the update if he player is invulnerable
+            if (!this.isInvulnerable) return;
 
-                    // Turn off vfx
-                    this.vfxController.ManageInvulnerabilityVFX(false);
-                }
+            // Update timer
+            this.invulnerabilityTimer += Time.deltaTime;
+
+            // Check if we must disable invulnerabiliy now
+            if (this.invulnerabilityTimer > this.PostDamageInvulnerability)
+            {
+                // Reset timer and set flag
+                this.invulnerabilityTimer = 0;
+                this.isInvulnerable = false;
+
+                // Turn off vfx
+                this.vfxController.ManageInvulnerabilityVFX(false);
             }
         }
 

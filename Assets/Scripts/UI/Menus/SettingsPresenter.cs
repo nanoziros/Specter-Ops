@@ -1,10 +1,6 @@
 ﻿namespace SpecterOps.Utilities
 {
     using UnityEngine;
-    using System.Collections;
-    using System.IO;
-    using System;
-
 #if UNITY_EDITOR
     using UnityEditor;
 #endif
@@ -40,7 +36,7 @@
         /// </summary>
         private void SavePreferences()
         {
-            // Save .asset file
+            // Save .asset and gameplay txt file
 #if UNITY_EDITOR
             AssetDatabase.Refresh(ImportAssetOptions.Default);
 #endif

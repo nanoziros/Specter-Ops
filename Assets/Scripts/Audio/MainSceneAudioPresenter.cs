@@ -1,7 +1,6 @@
 ﻿namespace SpecterOps
 {
     using UnityEngine;
-    using System.Collections;
 
     /// <summary>
     /// Core audio manager for mainscene

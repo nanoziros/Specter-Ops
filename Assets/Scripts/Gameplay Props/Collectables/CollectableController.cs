@@ -1,6 +1,7 @@
-﻿using UnityEngine;
-namespace SpecterOps
+﻿namespace SpecterOps
 {
+    using UnityEngine;
+
     /// <summary>
     /// Manages all collectable elements in the game
     /// </summary>
@@ -51,6 +52,9 @@ namespace SpecterOps
             GamePresenter.Instance.GamePaused -= this.PauseAnimation;
             GamePresenter.Instance.GameResumed -= this.ResumeAnimation;
         }
+        /// <summary>
+        /// Since we did some event subscribing, we need to safely unsubscribe on disable and on destroy
+        /// </summary>
         private void OnDestroy()
         {
             // Check if we initialized this class

@@ -1,8 +1,7 @@
-﻿using DG.Tweening;
-
-namespace SpecterOps
+﻿namespace SpecterOps
 {
     using UnityEngine;
+    using DG.Tweening;
 
     /// <summary>
     /// Game UI Hub. Manages the Player Status View, Match Status View and th Victory/Defeat/Pause Views
@@ -156,10 +155,12 @@ namespace SpecterOps
 
             // Activate view
             this.PauseScreen.SetActive(true);
+
             // Pop up animation
             this.PauseScreen.transform.localScale = Vector3.one * 0.5f;
             this.PauseScreen.transform.DOScale(1.0f, this.PopUpAnimationLength).SetEase(this.PopUpAnimationEase);
         }
+
         /// <summary>
         /// Display the end game screen matching the game results
         /// </summary>

@@ -10,7 +10,7 @@
     /// </summary>
     public class ProjectilePresenter : MonoBehaviour
     {
-        // Core projectile pool
+        // Core projectile pool 
         public GenericPoolSystem ProjectilesPool { get; private set; }
         public EnemyProjectileController ProjectilePrefab;
         public int PreloadedProjectiles = 30;
@@ -29,7 +29,7 @@
         }
 
         /// <summary>
-        /// Get GameplayElementController refence from the pooled gameobject projectile list
+        /// Get GameplayElementController refences from the pooled gameobject projectile list
         /// </summary>
         private void RefreshGameplayProjectileList()
         {

@@ -1,7 +1,6 @@
 ﻿namespace SpecterOps
 {
     using UnityEngine;
-    using DG.Tweening;
 
     /// <summary>
     /// Core audio manager for gamescene

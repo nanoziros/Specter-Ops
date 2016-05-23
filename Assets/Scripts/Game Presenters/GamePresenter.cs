@@ -71,7 +71,6 @@
             this.VfxPresenter = this.GetComponentInChildren<VFXPresenter>();
             this.UiPresenter = this.GetComponentInChildren<GameUIPresenter>();
             this.AudioPresenter = this.GetComponentInChildren<GameSceneAudioPresenter>();
-
             
             // Initialize core presenters
             this.VfxPresenter.Initialize();
@@ -103,7 +102,7 @@
             // Update player input
             this.PlayerPresenter.Player.UpdatePlayerInput();
 
-            // Don't execute gameplay updates if the game isn't running
+            // Don't execute other gameplay updates if the game isn't running
             if (GamePresenter.Instance.CurrentMatchState != GamePresenter.GameState.Running)
                 return;
 

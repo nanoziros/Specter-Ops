@@ -1,8 +1,7 @@
-﻿using System;
-
-namespace SpecterOps
+﻿namespace SpecterOps
 {
     using UnityEngine;
+    using System;
 
     /// <summary>
     /// Manages all enemy animations
