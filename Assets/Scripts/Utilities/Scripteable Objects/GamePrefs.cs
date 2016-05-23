@@ -2,6 +2,28 @@
 using SpecterOps.Player;
 
 /// <summary>
+/// Data structure for game preferences, this is required for the ingame preferences configuration panel
+/// </summary>
+[System.Serializable]
+public class GamePrefsFile
+{
+    public float MatchDuration;
+    public float EnvironmentSpeed;
+    public float PlayerSpeed;
+    public int PlayerHealth;
+    public int MinEnemyPerTile;
+    public int MaxEnemyPerTile;
+    public int EnemyCollisionDamage;
+    public int EnemyProjectileDamage;
+    public float EnemyProjectileSpeed;
+    public float EnemyFireRate;
+    public int RewardPerCollectable;
+    public int MinCollectablePerTile;
+    public int MaxCollectablePerTile;
+    public InputInstance.InputConfiguration inputConfig;
+}
+
+/// <summary>
 /// Scripteable object will all gameplay configurations
 /// </summary>
 [System.Serializable]

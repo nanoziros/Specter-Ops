@@ -60,8 +60,10 @@
         /// </summary>
         void Start()
         {
+            // Get data presenter references
+            this.DataPresenter = GameDataPresenter.Instance;
+ 
             // Get core presenters
-            this.DataPresenter = this.GetComponentInChildren<GameDataPresenter>();
             this.PlayerPresenter = this.GetComponentInChildren<PlayerPresenter>();
             this.EnvironmentPresenter = this.GetComponentInChildren<EnvironmentPresenter>();
             this.CameraRigPresenter = this.GetComponentInChildren<CameraRigPresenter>();
@@ -70,9 +72,6 @@
             this.UiPresenter = this.GetComponentInChildren<GameUIPresenter>();
             this.AudioPresenter = this.GetComponentInChildren<GameSceneAudioPresenter>();
 
-            // Load gameplay information from scripteable object
-            if (!this.DataPresenter.Load())
-                return;
             
             // Initialize core presenters
             this.VfxPresenter.Initialize();

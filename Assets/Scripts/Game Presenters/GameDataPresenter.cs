@@ -4,10 +4,20 @@
     using SpecterOps.Player;
 
     /// <summary>
-    /// Main scripteable object manager
+    /// Main scripteable object manager. This class is persistent and its setup allow for its use both in Editor and in Build versions
     /// </summary>
     public class GameDataPresenter : MonoBehaviour
     {
+        // Singleton
+        protected static GameDataPresenter instance;
+        public static GameDataPresenter Instance
+        {
+            get
+            {
+                return instance;
+            }
+            private set { instance = value; }
+        }
         // Public game prefs path
         public static string GamePrefsFolder = "Assets/Resources/ScripteableObjects/";
         public static string GamePrefsName = "GamePreferences.asset";
@@ -49,10 +59,46 @@
                 };
             }
         }
+
         /// <summary>
-        /// Load the game preferences object
+        ///   Singleton and inter scene persistence setup
         /// </summary>
-        public bool Load()
+        /// <devdoc>
+        ///     Destroys itself if there is already one in the scene.
+        /// </devdoc>
+        public void Awake()
+        {
+            if (GameDataPresenter.Instance != null)
+            {
+                Object.Destroy(this.gameObject);
+                return;
+            }
+            
+            // Set singleton and persistence setup
+            GameDataPresenter.Instance = this;
+            Object.DontDestroyOnLoad(this.gameObject);
+
+            // Load data from serializable object
+            // note: this is performed only in build mode and during the first time the game is executed
+            // during subsequent executions the data will be loaded directly from the gameplay file
+#if !UNITY_EDITOR
+            bool firstExecution = PlayerPrefs.GetInt("NonInitialized", 0) == 0;
+            if(firstExecution)
+            {
+                this.LoadFromScripteableObject();
+                PlayerPrefs.SetInt("NonInitialized", 1);
+            }
+            else
+                this.LoadFromGameplayFile();
+#else
+            this.LoadFromScripteableObject();
+#endif
+        }
+
+        /// <summary>
+        /// Load the game preferences object from scripteable object
+        /// </summary>
+        public bool LoadFromScripteableObject()
         {
             // Since we're going to use resources.load, we can remove the Assets/Resources prefix
             string finalGamePrefsPath = GamePrefsFolder.Replace("Assets/Resources/", "");
@@ -65,9 +111,32 @@
                 Debug.LogError("Couldn't load " + finalGamePrefsPath);
                 return false;
             }
-
+            // Store game prefs in build prefs txt
+            SaveLoad.SavePrefs(this.GamePrefs);
+            this.GamePrefs = SaveLoad.LoadPrefs();
             // Return success
             return true;
+        }
+
+        /// <summary>
+        /// Load the game preferences object from gameplay .txt prefs
+        /// </summary>
+        public bool LoadFromGameplayFile()
+        {
+            // Load game prefs
+            this.GamePrefs = SaveLoad.LoadPrefs();
+
+            // Return success
+            return this.GamePrefs != null;
+        }
+
+        /// <summary>
+        /// Saves the game preferences object from gameplay .txt prefs
+        /// </summary>
+        public void SaveCurrentPrefsToGameplayFile()
+        {
+            // Store game prefs in build prefs txt
+            SaveLoad.SavePrefs(this.GamePrefs);
         }
 
     }
