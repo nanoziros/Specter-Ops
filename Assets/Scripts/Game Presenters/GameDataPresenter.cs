@@ -13,7 +13,8 @@
         public static string GamePrefsName = "GamePreferences.asset";
 
         // Game data
-        public GamePrefs GamePrefs { get; private set; }
+        [System.NonSerialized]
+        public GamePrefs GamePrefs; 
         public static GamePrefs DefaultGamePref 
         {
             get
