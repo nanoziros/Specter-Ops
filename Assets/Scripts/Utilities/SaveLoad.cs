@@ -11,6 +11,9 @@ public static class SaveLoad
         FileStream file = File.Create(Application.persistentDataPath + "/PlayerPrefs.txt");
         bf.Serialize(file, GamePrefToGamePrefFile(prefs));
         file.Close();
+
+        if (!File.Exists(Application.persistentDataPath + "/PlayerPrefs.txt"))
+            Debug.LogError("Couldn't create " + Application.persistentDataPath + "/PlayerPrefs.txt");
     }
 
     public static GamePrefs LoadPrefs()
@@ -19,6 +22,13 @@ public static class SaveLoad
         {
             BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Open(Application.persistentDataPath + "/PlayerPrefs.txt", FileMode.Open);
+
+            if (file.Length <= 0)
+            {
+                Debug.LogError(Application.persistentDataPath + "/PlayerPrefs.txt is Empty");
+                return null;
+            }
+
             GamePrefsFile prefs = (GamePrefsFile)bf.Deserialize(file);
             file.Close();
 

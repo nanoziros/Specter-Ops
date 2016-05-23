@@ -79,20 +79,8 @@
             Object.DontDestroyOnLoad(this.gameObject);
 
             // Load data from serializable object
-            // note: this is performed only in build mode and during the first time the game is executed
-            // during subsequent executions the data will be loaded directly from the gameplay file
-#if !UNITY_EDITOR
-            bool firstExecution = PlayerPrefs.GetInt("NonInitialized", 0) == 0;
-            if(firstExecution)
-            {
-                this.LoadFromScripteableObject();
-                PlayerPrefs.SetInt("NonInitialized", 1);
-            }
-            else
-                this.LoadFromGameplayFile();
-#else
+            // todo: execute this.LoadFromScripteableObject() instead of LoadFromScripteableObject() if this isn't the first time the game is ran (using playerpref)
             this.LoadFromScripteableObject();
-#endif
         }
 
         /// <summary>
@@ -114,8 +102,9 @@
             // Store game prefs in build prefs txt
             SaveLoad.SavePrefs(this.GamePrefs);
             this.GamePrefs = SaveLoad.LoadPrefs();
+
             // Return success
-            return true;
+            return this.GamePrefs != null;
         }
 
         /// <summary>
